@@ -12,14 +12,14 @@ export default defineConfig({
   plugins: [vue(),
     AutoImport({
 			//安装两行后你会发现在组件中不用再导入ref，reactive等
-			imports: ['vue', 'vue-router'],
+			imports: ['vue', 'vue-router','vuex'],
             //存放的位置
 			dts: "src/auto-import.d.ts",
 		}),
     Components({
 			// 引入组件的,包括自定义组件
             // 存放的位置
-            dts: "src/components.d.ts",
+      dts: "src/components.d.ts",
 			resolvers: [
 				AntDesignVueResolver({
 				  importStyle: false, // css in js

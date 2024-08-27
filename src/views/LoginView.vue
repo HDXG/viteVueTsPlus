@@ -46,15 +46,15 @@ function BtnLogin(){
 </script>
 <style lang="scss" scoped>
 .login-wrapper{
-    overflow: hidden;
-    display:flex;
     justify-content: center;
     align-items: center;
+    display:flex;
     background-color: #f9fcff;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 20px);
+    overflow: hidden;
     .modal{
-        width: 500px;
+        width: 450px;
         padding: 50px;
         background-color: #fff;
         border-radius: 4px;
