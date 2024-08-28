@@ -1,0 +1,34 @@
+<template>
+    <el-sub-menu v-if="item.children!=undefined && item.children.length > 0" :index="item.path">
+        <template #title>
+            <component class="icon" :is="item.icon"></component>
+            <span>{{ item.title }}</span>
+        </template>
+        <!-- 组件自调 -->
+        <s-menu
+            v-for="ele in item.children"
+            :index="ele.path"
+            :key="ele"
+            :item="ele"
+            />
+    </el-sub-menu>
+        <el-menu-item  v-else :index="item.path">
+            <component class="icon" :is="item.icon"></component>
+            <span>{{ item.title }}</span>
+        </el-menu-item>
+
+</template>
+<script setup>
+import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs';
+import {defineProps,defineOptions} from 'vue'
+defineOptions({
+    name: "SMenu",//组件命名
+});
+defineProps(["item"]);//父组件向子组件传递的数据
+</script>
+<style scoped>
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+</style>

@@ -1,12 +1,15 @@
 import { defineConfig } from 'vite'
-import { resolve } from "path";
+import path, { resolve } from "path";
 import vue from '@vitejs/plugin-vue'
 // 自动导入vue中hook reactive ref等
 import AutoImport from "unplugin-auto-import/vite"
 //自动导入ui-组件 比如说ant-design-vue  element-plus等
 import Components from 'unplugin-vue-components/vite';
 
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import IconsResolver from "unplugin-icons/resolver";
+import Icons from "unplugin-icons/vite";
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(),
@@ -21,16 +24,27 @@ export default defineConfig({
             // 存放的位置
       dts: "src/components.d.ts",
 			resolvers: [
-				AntDesignVueResolver({
+				ElementPlusResolver({
 				  importStyle: false, // css in js
 				}),
+        IconsResolver({}),
 			],
 		}),
+    Icons({
+      // 自动安装图标库
+      autoInstall: true,
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+      // 指定symbolId格式
+      symbolId: 'icon-[dir]-[name]',
+  })
   ],
   resolve: {
     // 配置别名
     alias: {
       '@': resolve(__dirname, './src')
     }
-  }
+  },
 })

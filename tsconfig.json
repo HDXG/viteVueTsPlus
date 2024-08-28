@@ -27,6 +27,6 @@
       "vuex":["./node_modules/vuex/types"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.jsx", "src/**/*.vue", "src/icons/index.js"],
+  "include": ["src/**/*.ts","src/**/*.d.ts", "src/**/*.tsx", "src/**/*.jsx", "src/**/*.vue", "src/icons/index.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
