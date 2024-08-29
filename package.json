@@ -15,6 +15,7 @@
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "sass": "^1.77.8",
+    "screenfull": "^6.0.2",
     "unplugin-auto-import": "^0.18.2",
     "unplugin-vue-components": "^0.27.4",
     "vue": "^3.4.37",

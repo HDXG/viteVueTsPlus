@@ -12,6 +12,7 @@ const routes:RouteRecordRaw[] =[
             require:true//用于控制当前路由 不进行动态路由判断
         }
     },
+    
     {
         path: '/',
         name: '/',
@@ -54,6 +55,15 @@ const routes:RouteRecordRaw[] =[
                 component:()=>import('@/views/LoginView.vue'),
                 meta:{
                     title:"登录",
+                    require:true//用于控制当前路由 不进行动态路由判断
+                }
+            },
+            {
+                path: '/404',
+                name: '404',
+                component:()=>import('@/views/404View.vue'),
+                meta:{
+                    title:"404错误",
                     require:true//用于控制当前路由 不进行动态路由判断
                 }
             },

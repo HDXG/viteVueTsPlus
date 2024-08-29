@@ -14,7 +14,6 @@ var app=createApp(App);
 for (const iconName in ElementPlusIconsVue) {
     if (Reflect.has(ElementPlusIconsVue, iconName)) {
         const item = ElementPlusIconsVue[iconName];
-        console.log(iconName);
         app.component(iconName, item);
     }
 }

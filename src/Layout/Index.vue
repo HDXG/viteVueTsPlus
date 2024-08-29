@@ -1,40 +1,25 @@
 <template>
     <el-container class="layout-container-demo" style="height: 100%">
-    <el-aside :class="[isCollapse?'fold':'unfold']">
-        <el-scrollbar>
-            <!--系统logo-->
-            <div class="log">
-                <SvgIcon iocn-class="" />
-                Design111
-            </div>
-            <!--导航区域-->
-            <el-menu  :default-active="route.path" background-color="#304156" text-color="#bfcbd9"  :collapse="isCollapse"  :router="true">
-                <menu-view v-for="item in menuData" :key="item.path" :item="item"></menu-view>
-            </el-menu>
-        </el-scrollbar>
-    </el-aside>
-
-    <el-container>
-        <el-header style="border: 1px solid #e4e7ed;background-color: #FFF;">
-            <div class="nav-left">
-                <div class="menu-fold" @click="toggle"> <component class="icon" :is="iconXue"></component></div>
-                <!-- <div class="bread" >
-                    <breadcrumb-view/>
-                </div> -->
-            </div>
-        </el-header>
-        <!-- 主体内容 -->
-        <el-main>
-        <el-scrollbar>
-            <router-view/>
-        </el-scrollbar>
-        </el-main>
-    </el-container>
-
+      <el-aside :class="[isCollapse?'fold':'unfold']">
+          <el-scrollbar>
+              <!--系统logo-->
+              <div class="log">
+                  <SvgIcon icon-class="vue" size="25" v-if="isCollapse" />
+                  <div v-else><SvgIcon icon-class="vue" size="25"  />&emsp;Design</div>
+              </div>
+              <!--导航区域-->
+              <el-menu  :default-active="route.path" background-color="#304156" text-color="#bfcbd9"  :collapse="isCollapse"  :router="true">
+                  <menu-view v-for="item in menuData" :key="item.path" :item="item"></menu-view>
+              </el-menu>
+          </el-scrollbar>
+      </el-aside>
+      <!-- 左侧内容 -->
+      <containerView v-model:iconXue="iconXue" @toggle="toggle" />
     </el-container>
 </template>
 <script  setup  lang="ts">
 import menuView from '@/Layout/menu/menuView.vue'
+import containerView from '@/Layout/containerView/index.vue'
 const route=useRoute();
 const menuData=reactive([
   {
@@ -67,7 +52,7 @@ const menuData=reactive([
   },
   {
     "title": "日志管理",
-    "path": "/Login4",
+    "path": "/404",
     "icon": "AlarmClock",
     "vueName": "Serilog",
     "children": []
@@ -185,9 +170,9 @@ function toggle(){
     isCollapse.value=!isCollapse.value;
     iconXue.value=isCollapse.value?'Expand':'Fold';
 }
-onMounted(()=>{
-    console.log(1);
-    });
+  onMounted(()=>{
+    
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -204,22 +189,19 @@ onMounted(()=>{
         position: absolute;
         top:0px;
         z-index:10;
-        display: flex;
         align-items: center;
         text-align: center;
         font-size: 18px;
         height: 50px;
+        line-height: 50px;
+        vertical-align: auto;
         color: #fff;
+        transition: margin-left 1s;
         width: 100%;
-        background-color: #263445;
-        img{
-            margin: 0 16px;
-            width: 32px;
-            height: 32px;;
-        }
+        background-color: #2d3748;
     }
     &.fold{
-        width:64px;
+        width:65px;
     }
     &.unfold{
         width:210px;
@@ -232,53 +214,6 @@ onMounted(()=>{
         margin-top: 50px;
         border-right: none;
     }
-
-    .el-header{
-        height: 50px;
-        line-height: 50px;
-        display: flex;
-        justify-content: space-between;
-        padding:0 20px;
-        .nav-left{
-            display: flex;
-            align-items: center;
-            .menu-fold{
-                margin-right: 15px;
-                font-size: 18px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                .icon{
-                    width: 25px;
-                    height:25px;
-                }
-            }
-        }
-        .user-info{
-        .screenfull{
-            line-height: 40px;
-            margin-right: 15px;
-        }
-            .notice{
-            line-height: 30px;
-            margin-right: 15px;
-            }
-            .user-link{
-            cursor: pointer;
-            color: #409eff;
-            }
-        }
-        }
-        .icon{
-                width: 20px;
-                height: 20px;
-            }
-        .el-main {
-        padding: 0;
-        .el-scrollbar{
-            height: calc(100vh - 106px);
-        }
-        }
         .toolbar {
         display: inline-flex;
         align-items: center;
@@ -286,5 +221,7 @@ onMounted(()=>{
         height: 100%;
         right: 20px;
         }
+      
+    
 }
 </style>
