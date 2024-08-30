@@ -1,7 +1,7 @@
 <template>
     <el-sub-menu v-if="item.children!=undefined && item.children.length > 0" :index="item.path">
         <template #title>
-            <component class="icon" :is="item.icon"></component>
+            <svg-icon :icon-class="item.icon" size="15"></svg-icon>
             <span>{{ item.title }}</span>
         </template>
         <!-- 组件自调 -->
@@ -13,7 +13,7 @@
             />
     </el-sub-menu>
         <el-menu-item  v-else :index="item.path">
-            <component class="icon" :is="item.icon"></component>
+            <svg-icon :icon-class="item.icon" size="15"></svg-icon>
             <span>{{ item.title }}</span>
         </el-menu-item>
 

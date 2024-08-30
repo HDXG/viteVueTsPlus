@@ -13,19 +13,18 @@
               </el-menu>
           </el-scrollbar>
       </el-aside>
-      <!-- 左侧内容 -->
       <containerView v-model:iconXue="iconXue" @toggle="toggle" />
     </el-container>
 </template>
 <script  setup  lang="ts">
-import menuView from '@/Layout/menu/menuView.vue'
+import menuView from '@/Layout/LeftMenu/menuView.vue'
 import containerView from '@/Layout/containerView/index.vue'
 const route=useRoute();
 const menuData=reactive([
   {
     "title": "系统设置",
     "path": "/xitong",
-    "icon": "AlarmClock",
+    "icon": "House",
     "children": [
       {
         "title": "用户管理",
@@ -53,112 +52,14 @@ const menuData=reactive([
   {
     "title": "日志管理",
     "path": "/404",
-    "icon": "AlarmClock",
+    "icon": "House",
     "vueName": "Serilog",
     "children": []
   },
   {
-    "title": "系统设置",
-    "path": "/xitong",
-    "icon": "AlarmClock",
-    "children": [
-      {
-        "title": "用户管理",
-        "path": "/Login1",
-        "icon": "AlarmClock",
-        "vueName": "User",
-        "children": []
-      },
-      {
-        "title": "菜单管理",
-        "path": "/Login2",
-        "icon": "AlarmClock",
-        "vueName": "PopedomView",
-        "children": []
-      },
-      {
-        "title": "角色管理",
-        "path": "/Login3",
-        "icon": "AlarmClock",
-        "vueName": "role",
-        "children": []
-      }
-    ]
-  },
-  {
-    "title": "日志管理",
-    "path": "/Login4",
-    "icon": "AlarmClock",
-    "vueName": "Serilog",
-    "children": []
-  },
-  {
-    "title": "系统设置",
-    "path": "/xitong",
-    "icon": "AlarmClock",
-    "children": [
-      {
-        "title": "用户管理",
-        "path": "/Login1",
-        "icon": "AlarmClock",
-        "vueName": "User",
-        "children": []
-      },
-      {
-        "title": "菜单管理",
-        "path": "/Login2",
-        "icon": "AlarmClock",
-        "vueName": "PopedomView",
-        "children": []
-      },
-      {
-        "title": "角色管理",
-        "path": "/Login3",
-        "icon": "AlarmClock",
-        "vueName": "role",
-        "children": []
-      }
-    ]
-  },
-  {
-    "title": "日志管理",
-    "path": "/Login4",
-    "icon": "AlarmClock",
-    "vueName": "Serilog",
-    "children": []
-  },
-  {
-    "title": "系统设置",
-    "path": "/xitong",
-    "icon": "AlarmClock",
-    "children": [
-      {
-        "title": "用户管理",
-        "path": "/Login1",
-        "icon": "AlarmClock",
-        "vueName": "User",
-        "children": []
-      },
-      {
-        "title": "菜单管理",
-        "path": "/Login2",
-        "icon": "AlarmClock",
-        "vueName": "PopedomView",
-        "children": []
-      },
-      {
-        "title": "角色管理",
-        "path": "/Login3",
-        "icon": "AlarmClock",
-        "vueName": "role",
-        "children": []
-      }
-    ]
-  },
-  {
-    "title": "日志管理",
-    "path": "/Login4",
-    "icon": "AlarmClock",
+    "title": "图标选择器",
+    "path": "/iconSelect",
+    "icon": "House",
     "vueName": "Serilog",
     "children": []
   },

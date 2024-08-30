@@ -2,7 +2,7 @@
     <el-container>
         <el-header style="border: 1px solid #e4e7ed;background-color: #FFF;">
             <div class="nav-left">
-                <div class="menu-fold" @click="toggle"> <component class="icon" :is="iconXue"></component></div>
+                <div class="menu-fold" @click="toggle"> <SvgIcon :icon-class="iconXue" size="25" ></SvgIcon></div>
                 <div  > <BreadcrumbView /></div>
             </div>
             <div class="user-info">
@@ -11,7 +11,8 @@
             </div>
         </el-header>
         <el-main>
-            <el-scrollbar>
+            <tagView />
+            <el-scrollbar style="background-color: #FFF;">
                 <router-view/>
             </el-scrollbar>
         </el-main>
@@ -21,6 +22,7 @@
     import BreadcrumbView from './header/BreadcrumbView.vue'
     import screenfullView from './header/screenfullView.vue'
     import setupUser from './header/setupUser.vue';
+    import tagView from './header/TagView.vue';
     const props=defineProps({
         iconXue:{type:String,default:''}
     })
@@ -55,10 +57,6 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            .icon{
-                width: 25px;
-                height:25px;
-            }
         }
     }
     .user-info{
@@ -66,6 +64,7 @@
         display: flex;
         text-align: center;
         .navItem{
+            cursor: pointer;
             height: 50px;
             line-height: 50px;
         }
@@ -94,7 +93,7 @@
         padding: 0;
         .el-scrollbar{
             font-weight:bold;
-            height: calc(100vh - 60px);
+            height: calc(100vh - 100px);
         }
     }
 </style>

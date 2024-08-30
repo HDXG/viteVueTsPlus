@@ -23,6 +23,15 @@ const routes:RouteRecordRaw[] =[
         },
         children:[
             {
+                path: '/iconSelect',
+                name: 'iconSelect',
+                component:()=>import('@/components/DesignPlus/IconSelect.vue'),
+                meta:{
+                    title:"图标选择",
+                    require:true//用于控制当前路由 不进行动态路由判断
+                }
+            },
+            {
                 path: '/Login1',
                 name: 'Login1',
                 component:()=>import('@/views/LoginView.vue'),
