@@ -10,8 +10,7 @@ import 'virtual:svg-icons-register';
 import  '@element-plus/icons-vue'
 
 
-var app=createApp(App);
-
+var app=createApp(App); 
 app.use(store);
 app.use(router);
 app.use(ElementPlus,{

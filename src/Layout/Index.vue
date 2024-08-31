@@ -13,7 +13,7 @@
               </el-menu>
           </el-scrollbar>
       </el-aside>
-      <containerView v-model:iconXue="iconXue" @toggle="toggle" />
+      <containerView v-model:iconXue="iconXue" @toggle="toggle"/>
     </el-container>
 </template>
 <script  setup  lang="ts">

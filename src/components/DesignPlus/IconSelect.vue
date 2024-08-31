@@ -1,23 +1,23 @@
 <template>
-    <div style="padding: 20px;">
+    <div style="padding: 20px;"  ref="iconSelectorRef">
         <h1>图标选择器</h1>
         <el-popover :visible="iconStrSuffix"  placement="bottom"  width="500">
             <template #reference>
-                <el-input
+                <el-input 
                     v-model="iconStr" style="width:500px;" readonly
                     placeholder="请选择图标" @click="iconStrSuffix=!iconStrSuffix">
                     <template #prepend>
-                        <SvgIcon icon-class="User" size="20"></SvgIcon>
+                        <SvgIcon :icon-class="iconStr" size="20"></SvgIcon>
                     </template>
                     <template #suffix>
                         <SvgIcon :icon-class="iconStrSuffix?'ArrowUp':'ArrowDown'" size="20"></SvgIcon>
                     </template>
                 </el-input>
             </template>
-            <el-input class="p-2"  placeholder="搜索图标" clearable />
+            <el-input v-model="searchIcon"   placeholder="搜索图标" @input="handleSearchIcon"  clearable   />
             <el-scrollbar height="300px">
                 <ul class="icon-list">
-                    <li class="icon-item"   v-for="(iconName, index) in iconFilterNameList" :key="index">
+                    <li class="icon-item"  @click="iconSelect(iconName)"  v-for="(iconName, index) in iconFilterNameList" :key="index">
                         <el-tooltip :content="iconName" placement="bottom" effect="light">
                             <svg-icon color="var(--el-text-color-regular)" :icon-class="iconName" size="20" />
                         </el-tooltip>
@@ -28,33 +28,61 @@
     </div>
 </template>
 <script  setup  lang="ts">
-    import {onMounted, reactive, ref} from 'vue'
+    import { ElMessage } from 'element-plus';
+    import {onMounted, ref} from 'vue'
+    import useClipboard from 'vue-clipboard3' 
+    import { onClickOutside } from '@vueuse/core'
     const iconStrSuffix=ref<boolean>(false);
     const iconStr=ref<string>('User');
-
     const iconNameList=ref<string[]>([]);
     const iconFilterNameList=ref<string[]>([]);
+    const iconSelectorRef=ref(null);
+    const searchIcon=ref<string>('');
 
+    const { toClipboard } = useClipboard()
+    //加载图标内容
     function loadIcons() {
         const icons = import.meta.glob('../../assets/icons/*.svg');
         for (const icon in icons) {
             const iconName = icon.split('assets/icons/')[1].split('.svg')[0];
-            console.log(iconName);
             iconNameList.value.push(iconName);
         }
         iconFilterNameList.value=iconNameList.value;
-
     }
+    //选中的图标内容
+    const  iconSelect=async (iconName)=>{
+        try{
+            await toClipboard(iconName);  
+            iconStr.value=iconName;
+            searchIcon.value='';
+            handleSearchIcon();
+            ElMessage.success('复制成功');
+        }catch(e){
+            ElMessage.error('复制失败');
+        }
+    }
+    //搜索图标
+    function handleSearchIcon(){
+        if(searchIcon.value=="")
+            iconFilterNameList.value=iconNameList.value;
+        else
+            iconFilterNameList.value=iconNameList.value.filter(iconName =>
+                iconName.includes(searchIcon.value)
+            );
+    }
+    onClickOutside(iconSelectorRef, () => (
+        iconStrSuffix.value = false
+    ));
     onMounted(()=>{
         loadIcons();
     })
 </script>
 
 <style lang="less" scoped>
-    ::v-deep .el-input__wrapper{
+    :deep(.el-input__wrapper){
         cursor: pointer;
     }
-    ::v-deep .el-input__inner{
+    :deep(.el-input__inner){
         cursor: pointer;
     }
     .icon-list{

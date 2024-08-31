@@ -17,11 +17,21 @@ const routes:RouteRecordRaw[] =[
         path: '/',
         name: '/',
         component:()=>import('@/Layout/Index.vue'),
+        redirect: '/Home',
         meta:{
             title:"首页",
             require:true//用于控制当前路由 不进行动态路由判断
         },
         children:[
+            {
+                path:'/Home',
+                name:'首页',
+                component:()=>import('@/Layout/HomeView.vue'),
+                meta:{
+                    title:'首页',
+                    require:true
+                }
+            },
             {
                 path: '/iconSelect',
                 name: 'iconSelect',
@@ -70,7 +80,7 @@ const routes:RouteRecordRaw[] =[
             {
                 path: '/404',
                 name: '404',
-                component:()=>import('@/views/404View.vue'),
+                component:()=>import('@/components/404View.vue'),
                 meta:{
                     title:"404错误",
                     require:true//用于控制当前路由 不进行动态路由判断

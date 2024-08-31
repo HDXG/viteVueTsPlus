@@ -12,7 +12,7 @@
     const router = useRouter()
     const breadcrumbList = ref<any>([])
     const initBreadcrumbList = () => {
-        breadcrumbList.value = route.matched;
+        breadcrumbList.value = route.matched.filter(x=>x.path!='/Home');
     }
     const handleRedirect = (path) => {
         router.push(path)

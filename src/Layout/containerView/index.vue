@@ -12,7 +12,7 @@
         </el-header>
         <el-main>
             <tagView />
-            <el-scrollbar style="background-color: #FFF;">
+            <el-scrollbar style="background-color: #FFF;padding: 10px;">
                 <router-view/>
             </el-scrollbar>
         </el-main>
@@ -22,7 +22,7 @@
     import BreadcrumbView from './header/BreadcrumbView.vue'
     import screenfullView from './header/screenfullView.vue'
     import setupUser from './header/setupUser.vue';
-    import tagView from './header/TagView.vue';
+    import tagView from './header/TagView/TagView.vue';
     const props=defineProps({
         iconXue:{type:String,default:''}
     })
