@@ -1,3 +1,7 @@
 export enum keyEnum{
-    tagView='taRoutingLabel'
+    tagView='taRoutingLabel',
+    token='Authorization',
+    userInfo='UserInfo',
+    menuList='MenuCollection'
+    
 }

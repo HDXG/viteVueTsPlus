@@ -4,10 +4,18 @@
             <el-form ref="ruleFormRef" :model="user"  status-icon :rules="rule">
                 <div class="title">Design </div>
                 <el-form-item prop="AccountNumber">
-                    <el-input  type="text" prefix-icon="UserFilled"  v-model="user.AccountNumber" />
+                    <el-input  type="text" clearable  v-model="user.AccountNumber">
+                        <template #prefix>
+                            <SvgIcon icon-class="UserFilled"</SvgIcon>
+                        </template>
+                    </el-input>
                 </el-form-item>
                 <el-form-item prop="PassWord">
-                    <el-input type="passWord" prefix-icon="View" v-model="user.PassWord" />
+                    <el-input type="passWord"  v-model="user.PassWord" show-password > 
+                        <template #prefix>
+                            <SvgIcon icon-class="View" />
+                        </template>
+                    </el-input>
                 </el-form-item>
                 <el-form-item>
                     <ElButton class="btn-login" type="primary" @click="submitForm(ruleFormRef)">登录</ElButton>
@@ -17,13 +25,17 @@
     </div>
 </template>
 <script setup lang="ts">
+import {loginUserDto, loginUserRequest} from '@/Services/HomeService/model/loginUser';
 import { ElMessage,FormInstance } from 'element-plus'
-const user=ref({
-    AccountNumber:'admin',
-    PassWord:'1111',
-});
+import HomeService from '@/Services/HomeService';
+const homeApi=new HomeService();
+const user=reactive<loginUserDto>({
+        AccountNumber:'admin',
+        PassWord:'admin11',
+    });
 var router=useRouter();
-const ruleFormRef = ref<FormInstance>()
+var store=useStore();
+const ruleFormRef = ref<FormInstance>();
 const rule=ref({
     AccountNumber:[
         {
@@ -38,8 +50,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid) => {
         if (valid) {
-            ElMessage.success('登录成功');
-            router.push('/');
+            homeApi.GetLoginUser(user).then((res:loginUserRequest)=>{
+                ElMessage.success('登录成功');
+                res.token='1';
+                store.commit('home/savaUserInfo',res);
+                router.push('/');
+            });
         }else
             ElMessage.error('请填写完整');
     })

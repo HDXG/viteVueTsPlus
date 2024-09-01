@@ -16,7 +16,7 @@ const routes:RouteRecordRaw[] =[
     {
         path: '/',
         name: '/',
-        component:()=>import('@/Layout/Index.vue'),
+        component:()=>import('@/Layout/IndexView.vue'),
         redirect: '/Home',
         meta:{
             title:"首页",
@@ -26,7 +26,7 @@ const routes:RouteRecordRaw[] =[
             {
                 path:'/Home',
                 name:'首页',
-                component:()=>import('@/Layout/HomeView.vue'),
+                component:()=>import('@/Layout/dashboardView.vue'),
                 meta:{
                     title:'首页',
                     require:true
@@ -80,9 +80,9 @@ const routes:RouteRecordRaw[] =[
             {
                 path: '/404',
                 name: '404',
-                component:()=>import('@/components/404View.vue'),
+                component:()=>import('@/components/errorView.vue'),
                 meta:{
-                    title:"404错误",
+                    title:"异常信息",
                     require:true//用于控制当前路由 不进行动态路由判断
                 }
             },

@@ -1,7 +1,7 @@
 <template>
     <el-dropdown trigger="click" @command="handelCommand" style="margin-top: 13px;;">
         <div class="user-link "  >
-            <img src="../../../assets/icons/User.svg" width="20" height="20" alt="">&nbsp;
+            <img src="../../assets/icons/User.svg" width="20" height="20" alt="">&nbsp;
             <span> Design</span>
         </div>
         <template #dropdown>
@@ -14,6 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { ElMessageBox } from 'element-plus';
+import { useRouter } from 'vue-router';
 
 
 var router=useRouter();

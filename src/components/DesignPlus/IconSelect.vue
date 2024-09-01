@@ -31,7 +31,7 @@
     import { ElMessage } from 'element-plus';
     import {onMounted, ref} from 'vue'
     import useClipboard from 'vue-clipboard3' 
-    import { onClickOutside } from '@vueuse/core'
+    //import { onClickOutside } from '@vueuse/core'
     const iconStrSuffix=ref<boolean>(false);
     const iconStr=ref<string>('User');
     const iconNameList=ref<string[]>([]);
@@ -70,9 +70,9 @@
                 iconName.includes(searchIcon.value)
             );
     }
-    onClickOutside(iconSelectorRef, () => (
-        iconStrSuffix.value = false
-    ));
+    // onClickOutside(iconSelectorRef, () => (
+    //     iconStrSuffix.value = false
+    // ));
     onMounted(()=>{
         loadIcons();
     })

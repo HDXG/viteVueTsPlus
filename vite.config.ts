@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import path, { resolve } from "path";
 import vue from '@vitejs/plugin-vue'
 // 自动导入vue中hook reactive ref等
@@ -10,6 +10,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(),
@@ -46,5 +48,5 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src')
     }
-  },
+  }
 })

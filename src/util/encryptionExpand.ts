@@ -13,7 +13,11 @@ export default class encryptionExpand{
      * @returns 返回加密内容
      */
     encryption(object:any){
-        return CryptoJS.AES.encrypt(JSON.stringify(object), this.secretKey).toString(); 
+        try{
+            return CryptoJS.AES.encrypt(JSON.stringify(object), this.secretKey).toString(); 
+        }catch{
+            return '';
+        }
     }
     /**
      * 解密方法
@@ -21,6 +25,11 @@ export default class encryptionExpand{
      * @returns 解密成功的数据
      */
     decryption(object:any){
-        return JSON.parse(CryptoJS.AES.decrypt(object,this.secretKey).toString(CryptoJS.enc.Utf8)) ;
+        try{
+            return JSON.parse(CryptoJS.AES.decrypt(object,this.secretKey).toString(CryptoJS.enc.Utf8)) ;
+        }catch{
+            return null;
+        }
+        
     }
 }

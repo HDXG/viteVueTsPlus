@@ -7,7 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    404View: typeof import('./components/404View.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -35,6 +34,7 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ErrorView: typeof import('./components/errorView.vue')['default']
     IconSelect: typeof import('./components/DesignPlus/IconSelect.vue')['default']
     IEpCaretBottom: typeof import('~icons/ep/caret-bottom')['default']
     IEpCaretTop: typeof import('~icons/ep/caret-top')['default']

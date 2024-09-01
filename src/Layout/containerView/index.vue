@@ -19,10 +19,10 @@
     </el-container>
 </template>
 <script setup lang="ts">
-    import BreadcrumbView from './header/BreadcrumbView.vue'
-    import screenfullView from './header/screenfullView.vue'
-    import setupUser from './header/setupUser.vue';
-    import tagView from './header/TagView/TagView.vue';
+    import BreadcrumbView from './BreadcrumbView.vue'
+    import screenfullView from './screenfullView.vue'
+    import setupUser from './setupUser.vue';
+    import tagView from './TagView/TagView.vue';
     const props=defineProps({
         iconXue:{type:String,default:''}
     })
@@ -93,7 +93,7 @@
         padding: 0;
         .el-scrollbar{
             font-weight:bold;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 110px);
         }
     }
 </style>

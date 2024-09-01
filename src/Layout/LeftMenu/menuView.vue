@@ -19,8 +19,6 @@
 
 </template>
 <script setup>
-import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs';
-import {defineProps,defineOptions} from 'vue'
 defineOptions({
     name: "SMenu",//组件命名
 });
