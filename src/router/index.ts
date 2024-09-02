@@ -3,6 +3,7 @@ import routes from './router.config.ts'
 import storage from '@/util/localStorageExpand/storage.ts';
 import { keyEnum } from '@/util/localStorageExpand/keyEnum.ts';
 import encryptionExpand from '@/util/encryptionExpand.ts';
+import {startNprogress,closeNprogress} from '@/util/nprogress.ts'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -13,6 +14,7 @@ const router = createRouter({
 
 const encryption=new encryptionExpand();
 router.beforeEach((to, _from, next) => {
+    startNprogress();
     document.title = to.meta.title as string;
     let userInfo=encryption.decryption(storage.getItem(keyEnum.userInfo));
     let token=encryption.decryption(storage.getItem(keyEnum.token));
@@ -36,6 +38,10 @@ router.beforeEach((to, _from, next) => {
     }
         
     }
+})
+
+router.afterEach(()=>{
+    closeNprogress();
 })
 
 window.addEventListener('popstate', () => {  
