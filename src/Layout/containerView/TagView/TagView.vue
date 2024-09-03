@@ -14,12 +14,10 @@
 
 import { tagList } from './tagView';
 import storage from '@/util/localStorageExpand/storage';
-import encryptionExpand from '@/util/encryptionExpand'
 import { keyEnum } from '@/util/localStorageExpand/keyEnum';
     const dynamicTags=ref<Array<tagList>>([]);
     const selectIndex=ref<number>(0);
     const selectIndexClear=ref<number>(0);
-    const encryption=new encryptionExpand();
     var router=useRouter();
     //删除TagView
     const handleClose=((index)=>{
@@ -39,7 +37,7 @@ import { keyEnum } from '@/util/localStorageExpand/keyEnum';
             item.checked=false;
         });
         dynamicTags.value[index].checked=true;
-        storage.setItem(keyEnum.tagView,encryption.encryption(dynamicTags.value));
+        storage.setItem(keyEnum.tagView,dynamicTags.value);
         if(selectIndex.value!=index)
             router.push(dynamicTags.value[index].path);
     }
@@ -56,7 +54,7 @@ import { keyEnum } from '@/util/localStorageExpand/keyEnum';
             } as tagList);
         }
         else
-            dynamicTags.value=encryption.decryption(tagListEn) as Array<tagList>;
+            dynamicTags.value=tagListEn as Array<tagList>;
         dynamicTags.value.map((item,index)=>{
             if(item.checked){
                 return handleClick(index);

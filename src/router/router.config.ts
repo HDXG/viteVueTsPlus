@@ -42,12 +42,11 @@ const routes:RouteRecordRaw[] =[
                 }
             },
             {
-                path: '/Login1',
-                name: 'Login1',
-                component:()=>import('@/views/LoginView.vue'),
+                path: '/SystemSetting/UserView',
+                name: '用户列表',
+                component:()=>import('@/views/SystemSetting/UserView/index.vue'),
                 meta:{
-                    title:"登录",
-                    require:true//用于控制当前路由 不进行动态路由判断
+                    title:"用户列表",
                 }
             },
             {

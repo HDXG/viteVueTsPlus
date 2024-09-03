@@ -39,7 +39,7 @@
         emit('toggle');
     }
 </script>
-<style lang="less" >
+<style lang="less" scoped>
 .el-header{
     height: 50px;
     line-height: 50px;

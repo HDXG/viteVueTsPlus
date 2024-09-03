@@ -9,6 +9,6 @@ interface ImportMetaEnv {
          */
         VITE_APP_BASE_API: string;
     }
-    interface ImportMeta {
+    interface ImportMeta  {
         readonly env: ImportMetaEnv;
     }
