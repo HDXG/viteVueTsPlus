@@ -1,4 +1,4 @@
 
-export  interface GetUserList {
+export  interface GetUserList extends pageModel {
     name:string,
 }

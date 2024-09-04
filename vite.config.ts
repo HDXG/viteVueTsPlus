@@ -24,7 +24,7 @@ export default defineConfig({
     Components({
 			// 引入组件的,包括自定义组件
             // 存放的位置
-      dts: "src/components.d.ts",
+      dts: "src/componentsTs.d.ts",
 			resolvers: [
 				ElementPlusResolver({
 				  importStyle: false, // css in js
