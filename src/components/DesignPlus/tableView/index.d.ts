@@ -16,10 +16,11 @@ export class tableConfigs extends   pageModel{
 
 
 export class tableOptions{
+     //type类型
+    type?:string="selection";
     label:string='';
     prop?:string='';
     align?:string='center';
     width?:number=100;
-    slot?:boolean=false;
     slotName?:string='';
 }

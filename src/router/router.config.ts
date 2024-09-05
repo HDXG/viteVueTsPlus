@@ -44,18 +44,17 @@ const routes:RouteRecordRaw[] =[
             {
                 path: '/SystemSetting/UserView',
                 name: '用户列表',
-                component:()=>import('@/views/SystemSetting/UserView/index.vue'),
+                component:()=>import('@/views/SystemSetting/UserView.vue'),
                 meta:{
                     title:"用户列表",
                 }
             },
             {
-                path: '/Login2',
-                name: 'Login2',
-                component:()=>import('@/views/LoginView.vue'),
+                path: '/SystemSetting/RoleView',
+                name: '角色列表',
+                component:()=>import('@/views/SystemSetting/RoleView.vue'),
                 meta:{
-                    title:"登录",
-                    require:true//用于控制当前路由 不进行动态路由判断
+                    title:"角色列表",
                 }
             },
             {

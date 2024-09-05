@@ -1,6 +1,6 @@
 import api from '@/util/api/index';
 import { ElMessage } from 'element-plus';
-import response from './index.d';
+import {response} from '.';
 
 function ApiService(url:string,method:string,data:any){
     const servicePromise = api({ method , url , data  });
@@ -28,7 +28,7 @@ function GetService(url:string,data:any){
  * @param url 接口地址
  * @param data 接口参数
  */
-function  PostService<res>(url:string,data:any){
+function  PostService<res>(url:string,data:any=null){
     const servicePromise=api.post<any,response<res>>(url,data);
         return new Promise<res>(function (resolve) {
             servicePromise.then(res=>{

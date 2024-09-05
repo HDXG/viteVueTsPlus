@@ -7,6 +7,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BtnAdd: typeof import('./components/DesignPlus/ButtonExtend/BtnAdd.vue')['default']
+    ButtonExtend: typeof import('./components/DesignPlus/ButtonExtend/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -14,6 +16,7 @@ declare module 'vue' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckTag: typeof import('element-plus/es')['ElCheckTag']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
@@ -30,9 +33,12 @@ declare module 'vue' {
     ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElPopover: typeof import('element-plus/es')['ElPopover']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
+    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElResult: typeof import('element-plus/es')['ElResult']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']

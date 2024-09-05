@@ -1,4 +1,5 @@
-import { PostService } from "..";
+
+import { PostService } from "../apiExtend";
 import { loginUserRequest,loginUserDto} from "./model/loginUser";
 
 enum apiType{

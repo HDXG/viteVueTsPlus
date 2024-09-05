@@ -1,5 +1,6 @@
 <template>
     <div class="flex gap-2">
+        
         <el-tag  
             class="tags-item" 
             v-for="(tag,index) in dynamicTags" :key="tag.name"
