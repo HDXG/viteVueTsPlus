@@ -17,8 +17,20 @@ export interface HasCreateDeleteEntityDto{
     CreateTime?:Date
 }
 
+/**
+ * 分页通用内容
+ */
+export interface PagingBase{
+    PageIndex:number,
+    PageSize:number,
+}
+
 //表格分页内容
 export interface getPageListDto<T>{
     TotalCount:number=0;
     Item:T[]
+}
+
+export interface getDto{
+    Id:string
 }

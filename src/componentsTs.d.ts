@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BtnAction: typeof import('./components/DesignPlus/ButtonExtend/BtnAction.vue')['default']
     BtnAdd: typeof import('./components/DesignPlus/ButtonExtend/BtnAdd.vue')['default']
     ButtonExtend: typeof import('./components/DesignPlus/ButtonExtend/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -27,11 +28,13 @@ declare module 'vue' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
     ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']

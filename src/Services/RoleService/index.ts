@@ -1,19 +1,28 @@
 
 import { PostService } from "../apiExtend";
-import { SysRoleDto } from "./model";
+import { GetPageRoleDto, SysRoleDto } from "./model";
 
-import {getPageListDto} from '../index.d'
+import {getDto, getPageListDto} from '../index.d'
 
 enum apiType{
     GetRoleList='Role/PagedResult',
-    InsertRole='Role/InsertRole'
+    InsertRole='Role/InsertRole',
+    UpdateRole='Role/UpdateRole',
+    GetRole='Role/GetRole',
+    deletRole='Role/DeletePage'
 }
 export default class RoleService{
-    GetLoginUser(){
-        return PostService<getPageListDto<SysRoleDto>>(apiType.GetRoleList);
+    getRoleList(data:GetPageRoleDto){
+        return PostService<getPageListDto<SysRoleDto>>(apiType.GetRoleList,data);
     }
-    InsertRole(data:SysRoleDto){
-        return PostService<getPageListDto<SysRoleDto>>(apiType.InsertRole,data);
+    ModifyAdd(data:SysRoleDto,type:number){
+        return PostService<boolean>(type==1?apiType.InsertRole:apiType.UpdateRole,data);
+    }
+    async GetRole(data:getDto){
+        return await PostService<SysRoleDto>(apiType.GetRole,data);
+    }
+    async deletRole(data:getDto){
+        return await PostService<boolean>(apiType.deletRole,data);
     }
 }
 

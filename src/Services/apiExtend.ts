@@ -6,11 +6,7 @@ function ApiService(url:string,method:string,data:any){
     const servicePromise = api({ method , url , data  });
     return new Promise(function (resolve) {
         servicePromise.then(res=>{
-            if(res.data.code==500){
-                ElMessage.error('出现异常信息!');
-            }else{
-                resolve(res.data.data);
-            }
+            resolve(res.data.data);
         }).catch(function (error) {
             if (error.response) {
                 ElMessage.error('出现异常信息!');
@@ -32,15 +28,8 @@ function  PostService<res>(url:string,data:any=null){
     const servicePromise=api.post<any,response<res>>(url,data);
         return new Promise<res>(function (resolve) {
             servicePromise.then(res=>{
-                if(res.data.code==500){
-                    return ElMessage.error(res.data.msg);
-                }
                 resolve(res.data.data);
                 
-            }).catch(function (error) {
-                if (error.response) {
-                    ElMessage.error('出现异常信息');
-                }
             });
         })    
 }
