@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import { ConfigType } from 'dayjs'
 
 // 获得当前时间

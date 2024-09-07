@@ -23,4 +23,6 @@ export class tableOptions{
     align?:string='center';
     width?:number=100;
     slotName?:string='';
+    date?:boolean=false;
+    
 }

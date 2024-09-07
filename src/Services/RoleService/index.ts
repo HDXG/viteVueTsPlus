@@ -1,6 +1,6 @@
 
 import { PostService } from "../apiExtend";
-import { GetPageRoleDto, SysRoleDto } from "./model";
+import { GetPageRoleDto, RoleListDto, SysRoleDto } from "./model";
 
 import {getDto, getPageListDto} from '../index.d'
 
@@ -9,7 +9,8 @@ enum apiType{
     InsertRole='Role/InsertRole',
     UpdateRole='Role/UpdateRole',
     GetRole='Role/GetRole',
-    deletRole='Role/DeletePage'
+    deletRole='Role/DeletePage',
+    roleList='Role/RoleList'
 }
 export default class RoleService{
     getRoleList(data:GetPageRoleDto){
@@ -23,6 +24,9 @@ export default class RoleService{
     }
     async deletRole(data:getDto){
         return await PostService<boolean>(apiType.deletRole,data);
+    }
+    roleList(){
+        return PostService<RoleListDto[]>(apiType.roleList);
     }
 }
 

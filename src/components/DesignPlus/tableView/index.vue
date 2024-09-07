@@ -3,6 +3,9 @@
         <el-table-column v-for="item in tableOption.tableColumn" 
             :prop="item.prop" :label="item.label"  
             :width="item.width" :align="item.align?item.align:'center'" :type="item?.type">
+            <template v-if="item.date" #default="{row}">
+                {{dateFormat(row,item.prop)}}
+            </template>
             <template v-if="item.slotName" #default="{ row }">
                 <slot :name="item.slotName" v-if="item.slotName" :row="row"></slot>
             </template>
@@ -16,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { timeFormat } from '@/util/TimeDays';
 import {tableConfigs} from '.'
 import { pageModel } from '../pageView';
 
@@ -35,6 +39,7 @@ import { pageModel } from '../pageView';
         pageSize:tablePage.tableOption.pageSize,
         totalCount:tablePage.tableOption.totalCount,
     })
+    
 
     const handelPagination=()=>{
         emit('handelPagination');
@@ -47,8 +52,11 @@ import { pageModel } from '../pageView';
     watch(tableOption.value,(val:tableConfigs)=>{
         pageOption.totalCount=val.totalCount;
     })
-    onMounted(()=>{
 
-    })
+    function dateFormat(row,prop){
+        if(row[prop]!=undefined){
+            return timeFormat( row[prop].replace('T',' '),'YYYY-MM-DD HH:mm:ss');
+        }
+    }
 
 </script>

@@ -13,3 +13,8 @@ export interface SysRoleDto extends HasCreateDeleteEntityDto{
 export interface GetPageRoleDto extends PagingBase{
     RoleName:string
 }
+
+export interface RoleListDto{
+    Id:string,
+    RoleName:string
+}
