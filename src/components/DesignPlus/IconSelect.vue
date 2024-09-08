@@ -1,10 +1,9 @@
 <template>
-    <div style="padding: 20px;"  ref="iconSelectorRef">
-        <h1>图标选择器</h1>
+    <div  ref="iconSelectorRef">
         <el-popover :visible="iconStrSuffix"  placement="bottom"  width="500">
             <template #reference>
                 <el-input 
-                    v-model="iconStr" style="width:500px;" readonly
+                    v-model="iconStr" style="width:200px;" readonly
                     placeholder="请选择图标" @click="iconStrSuffix=!iconStrSuffix">
                     <template #prepend>
                         <SvgIcon :icon-class="iconStr" size="20"></SvgIcon>
@@ -28,18 +27,27 @@
     </div>
 </template>
 <script  setup  lang="ts">
-    import { ElMessage } from 'element-plus';
+    //import { ElMessage } from 'element-plus';
     import {onMounted, ref} from 'vue'
-    import useClipboard from 'vue-clipboard3' 
+    //import useClipboard from 'vue-clipboard3' 
     //import { onClickOutside } from '@vueuse/core'
     const iconStrSuffix=ref<boolean>(false);
-    const iconStr=ref<string>('User');
     const iconNameList=ref<string[]>([]);
     const iconFilterNameList=ref<string[]>([]);
     const iconSelectorRef=ref(null);
     const searchIcon=ref<string>('');
 
-    const { toClipboard } = useClipboard()
+    const props=defineProps<{
+        icon:string,
+    }>();
+    const emit=defineEmits(['update:icon']);
+    const iconStr=computed({
+        get:()=>props.icon,
+        set:(val)=>{
+            emit('update:icon',val);
+        }
+    })
+    //const { toClipboard } = useClipboard()
     //加载图标内容
     function loadIcons() {
         const icons = import.meta.glob('../../assets/icons/*.svg');
@@ -51,15 +59,17 @@
     }
     //选中的图标内容
     const  iconSelect=async (iconName)=>{
-        try{
-            await toClipboard(iconName);  
-            iconStr.value=iconName;
-            searchIcon.value='';
-            handleSearchIcon();
-            ElMessage.success('复制成功');
-        }catch(e){
-            ElMessage.error('复制失败');
-        }
+        iconStr.value=iconName;
+        iconStrSuffix.value=false;
+        // try{
+        //     await toClipboard(iconName);  
+        //     iconStr.value=iconName;
+        //     searchIcon.value='';
+        //     handleSearchIcon();
+        //     ElMessage.success('复制成功');
+        // }catch(e){
+        //     ElMessage.error('复制失败');
+        // }
     }
     //搜索图标
     function handleSearchIcon(){

@@ -1,7 +1,7 @@
 <template>
-    <el-button style="width:20px;" @click="handleEdit(row)" type="primary" text><ElTooltip content="编辑" placement="top"><SvgIcon icon-class="edit" size="20" /></ElTooltip></el-button>
-    <el-button style="width:20px;" @click="handleView(row)" type="primary" text><ElTooltip content="查看" placement="top"><SvgIcon icon-class="View" size="20" /></ElTooltip></el-button>
-    <el-button style="width:20px;" @click="handleDelete(row)" type="danger" text><ElTooltip content="删除" placement="top"><SvgIcon icon-class="Delete" size="20" /></ElTooltip></el-button>
+    <el-button style="width:40px;" @click="handleEdit(row)" type="primary" text><SvgIcon icon-class="edit" size="15" />编辑</el-button>
+    <el-button style="width:40px;" @click="handleView(row)" type="primary" text><SvgIcon icon-class="View" size="15" />查看</el-button>
+    <el-button style="width:40px;" @click="handleDelete(row)" type="danger" text><SvgIcon icon-class="Delete" size="15" />删除</el-button>
 </template>
 
 <script setup lang="ts">

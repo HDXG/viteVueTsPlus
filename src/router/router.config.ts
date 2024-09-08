@@ -12,7 +12,15 @@ const routes:RouteRecordRaw[] =[
             require:true//用于控制当前路由 不进行动态路由判断
         }
     },
-    
+    {
+        path: '/404',
+        name: '404',
+        component:()=>import('@/components/errorView.vue'),
+        meta:{
+            title:"异常信息",
+            require:true//用于控制当前路由 不进行动态路由判断
+        }
+    },
     {
         path: '/',
         name: '/',
@@ -58,32 +66,14 @@ const routes:RouteRecordRaw[] =[
                 }
             },
             {
-                path: '/Login3',
-                name: 'Login3',
-                component:()=>import('@/views/LoginView.vue'),
+                path: '/SystemSetting/PopedomView',
+                name: '菜单管理',
+                component:()=>import('@/views/SystemSetting/PopedomView.vue'),
                 meta:{
-                    title:"登录",
-                    require:true//用于控制当前路由 不进行动态路由判断
+                    title:"菜单管理",
                 }
             },
-            {
-                path: '/Login4',
-                name: 'Login4',
-                component:()=>import('@/views/LoginView.vue'),
-                meta:{
-                    title:"登录",
-                    require:true//用于控制当前路由 不进行动态路由判断
-                }
-            },
-            {
-                path: '/404',
-                name: '404',
-                component:()=>import('@/components/errorView.vue'),
-                meta:{
-                    title:"异常信息",
-                    require:true//用于控制当前路由 不进行动态路由判断
-                }
-            },
+            
         ]
     },
 ];

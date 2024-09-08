@@ -23,6 +23,9 @@
             </el-tag>
         </template>
         <template #handleBtn="{row}">
+            <el-button style="width:80px;" @click="handleAssign(row)" type="primary" text>
+                <SvgIcon icon-class="assignpermissions" size="15" />分配权限
+            </el-button>
             <BtnAction v-model:rowDto="roleDto" @handleEdit="handleEdit(row)" @handleDelete="handleDelete(row)" 
                         @handleView="handleView(row)" />
         </template>
@@ -63,17 +66,40 @@
             </div>
             </template>
     </el-dialog>
+
+    <el-drawer v-model="drawerVisible" :title="drawerTitle" >
+        <div>
+            <el-input v-model="treeSelectStr"  placeholder="菜单/权限名称" style="width: 240px"  :prefix-icon="Search"></el-input>
+            &emsp;<ElButton type="primary">展开</ElButton> <el-checkbox v-model="fatherAndSon" label="父子联动" size="large" />
+            <el-tree ref="treeRef"  :data="treePermissions" show-checkbox default-expand-all node-key="id"
+                :check-strictly="!fatherAndSon" :highlight-current="true" style="margin-top: 10px;" />
+        </div>
+        <template #footer>
+            <div style="flex: auto">
+                <el-button type="primary" @click="confirmClick()">确定</el-button>
+                <el-button @click="drawerVisible=false">取消</el-button>
+            </div>
+        </template>
+    </el-drawer>
 </template>
 
 <script setup lang="ts">
+import {  Search } from '@element-plus/icons-vue'
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
 import { getDto } from '@/Services';
 import RoleService from '@/Services/RoleService';
 import { GetPageRoleDto, SysRoleDto } from '@/Services/RoleService/model';
 import { createGuid } from '@/util/guid';
-import { ElMessage, FormInstance } from 'element-plus';
+import { ElMessage, FormInstance,ElTree } from 'element-plus';
+import { treeDto } from '@/Services/model';
 const dialogVisible=ref<boolean>(false);
+const drawerVisible=ref<boolean>(false);
+const drawerTitle=ref<string>('');
+const treeSelectStr=ref<string>('');
+const treePermissions=ref<treeDto[]>([]);
+const treeRef = ref<InstanceType<typeof ElTree>|any>();
+const fatherAndSon=ref<boolean>(false);
 const AddModifyView=ref<Number>(1);
 const ruleFormRef = ref<FormInstance>();
     const rules=ref({
@@ -139,11 +165,12 @@ const ruleFormRef = ref<FormInstance>();
             {
                 label:'添加时间',
                 width:200,
+                date:true,
                 prop:'CreateTime',
             },
             {
                 label:'操作',
-                width:170,
+                width:270,
                 slotName:'handleBtn'
             }
         ] as tableOptions[]
@@ -152,6 +179,21 @@ const ruleFormRef = ref<FormInstance>();
         getRoleSelect.PageIndex=val.pageIndex;
         getRoleSelect.PageSize=val.pageSize;
     })
+    watch(fatherAndSon,(val)=>{
+        console.log(val);
+    })
+//分配权限
+function handleAssign(row:SysRoleDto){
+    roleApi.handleTreePermissions().then(res=>{
+        treePermissions.value=res;
+        drawerTitle.value=`【${row.RoleName}】分配权限`;
+        drawerVisible.value=true;
+    })
+}
+//分配权限确定
+function confirmClick(){
+    console.log(treeRef.value.getCheckedKeys());
+}
 
     const handelPagination=()=>{
         LoadPage();
@@ -208,6 +250,7 @@ const ruleFormRef = ref<FormInstance>();
         }
     })
 }
+
     const LoadPage=()=>{
         roleApi.getRoleList(getRoleSelect).then((res)=>{
             tableConfig.Items=res.Item;

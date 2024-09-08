@@ -3,6 +3,7 @@ import { PostService } from "../apiExtend";
 import { GetPageRoleDto, RoleListDto, SysRoleDto } from "./model";
 
 import {getDto, getPageListDto} from '../index.d'
+import { treeDto } from "../model";
 
 enum apiType{
     GetRoleList='Role/PagedResult',
@@ -10,7 +11,8 @@ enum apiType{
     UpdateRole='Role/UpdateRole',
     GetRole='Role/GetRole',
     deletRole='Role/DeletePage',
-    roleList='Role/RoleList'
+    roleList='Role/RoleList',
+    TreePermissions='Role/TreePermissions'
 }
 export default class RoleService{
     getRoleList(data:GetPageRoleDto){
@@ -27,6 +29,9 @@ export default class RoleService{
     }
     roleList(){
         return PostService<RoleListDto[]>(apiType.roleList);
+    }
+    handleTreePermissions(){
+        return PostService<treeDto[]>(apiType.TreePermissions);
     }
 }
 

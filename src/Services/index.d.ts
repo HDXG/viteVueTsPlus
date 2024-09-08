@@ -34,3 +34,5 @@ export interface getPageListDto<T>{
 export interface getDto{
     Id:string
 }
+
+

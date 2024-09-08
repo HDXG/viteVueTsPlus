@@ -1,0 +1,229 @@
+<template>
+    <el-form  :inline="true">
+        <el-form-item label="菜单名称" prop="name">
+            <el-input v-model="getMenuSelect.menuName"  placeholder="请输入菜单名称" />
+        </el-form-item>
+        <el-form-item> 
+            <el-button type="primary" @click="handleLoad();ElMessage.success('查询成功')">查询</el-button>
+            <el-button @click="getMenuSelect.menuName='';handleLoad();ElMessage.success('重置成功')">重置</el-button>
+        </el-form-item>
+    </el-form>
+    <div  style="margin-bottom: 10px;">
+        <BtnAdd @handleAdd="handleAdd"></BtnAdd>
+    </div>  
+    <TableView v-model:tableOption="tableConfig" @handelPagination="handelPagination"  >
+        <template #Status="{row}">
+            <el-tag :key="row.IsStatus" :type="row.IsStatus?'success':'danger'" size="small"   >
+                {{ row.IsStatus?'正常':'禁用' }}
+            </el-tag>
+        </template>
+        <template #handleBtn="{row}">
+            <BtnAction v-model:rowDto="menuPopedom" @handle-delete="handleDelete(row)" @handle-edit="handleEdit(row)" 
+                @handle-view="handleView(row)" ></BtnAction>
+        </template>
+    </TableView>
+    
+    <el-drawer v-model="dialogVisible"  :title="AddModifyView==1?'新增菜单':AddModifyView==2?'编辑菜单':'查看菜单'" >
+        <div>
+            <el-form  ref="ruleFormRef"  :model="menuPopedom"   :rules="rules" label-width="auto">
+                <el-form-item label="父级菜单" prop="Fatherid">
+                    <el-tree-select  v-model="menuPopedom.Fatherid"   check-strictly  :data="menuTreeSelectData" :render-after-expand="false"/>
+                </el-form-item>
+                <el-form-item :label="menuPopedom.MenuType==0 || menuPopedom.MenuType==1?'菜单名称':'按钮名称'" prop="MenuName">
+                    <el-input v-model="menuPopedom.MenuName" />
+                </el-form-item>
+                <el-form-item label="菜单类型" prop="MenuType">
+                    <el-radio-group v-model="menuPopedom.MenuType">
+                        <el-radio :value="0">目录</el-radio>
+                        <el-radio :value="1">菜单</el-radio>
+                        <el-radio :value="2">按钮</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType!=2" label="路由名称" prop="RouteName">
+                    <el-input v-model="menuPopedom.RouteName" />
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType!=2" label="路由路径" prop="MenuUrl">
+                    <el-input v-model="menuPopedom.MenuUrl" />
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType!=2" label="组件路径" prop="ComponentPath">
+                    <el-input v-model="menuPopedom.ComponentPath" />
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType!=2" label="图标选择" prop="Icon">
+                    <IconSelect v-model:icon="menuPopedom.Icon"></IconSelect>
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType==2" label="权限标识" prop="Identification">
+                    <el-input v-model="menuPopedom.Identification" />
+                </el-form-item>
+                <el-form-item label="显示状态" prop="IsStatus">
+                    <el-radio-group v-model="menuPopedom.IsStatus">
+                        <el-radio :value="true">启用</el-radio>
+                        <el-radio :value="false">隐藏</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-form>
+        </div>
+        <template #footer>
+            <div style="flex: auto">
+                <el-button @click="dialogVisible=false">取消</el-button>
+                <el-button type="primary" @click="confirmClick(ruleFormRef)">确定</el-button>
+            </div>
+        </template>
+    </el-drawer>
+</template>
+<script setup lang="ts">
+import {ElMessage, FormInstance} from 'element-plus'
+import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
+import { SysMenuPermissionsDto } from '@/Services/MenuPermissService/model';
+import {menuService} from '@/Services/public-Index';
+import { treeSelectDto } from '@/Services/model';
+import { createGuid } from '@/util/guid';
+
+const apiMenu=new menuService();
+
+const AddModifyView=ref<number>(1);
+const dialogVisible=ref<boolean>(false);
+const ruleFormRef=ref<FormInstance>();
+const menuTreeSelectData=ref<treeSelectDto[] | any>([]);
+const getMenuSelect=reactive({
+    menuName:'',
+    PageIndex:1,
+    PageSize:10,
+})
+
+const menuPopedom=ref<SysMenuPermissionsDto>({
+    Id:'',
+    MenuName:'',
+    RouteName:'',
+    MenuUrl:'',
+    ComponentPath:'',
+    Fatherid:'00000000-0000-0000-0000-000000000000',
+    Icon:'',
+    MenuType:0,
+    Identification:'',
+    IsDelete:true,
+    IsStatus:true,
+})
+const rules=ref({
+    MenuName:[{ required: true, message: '请输入名称', trigger: 'blur' }],
+    RouteName:[{required:true,message:'请输入路由名称',trigger: 'blur'}],
+    MenuUrl:[{required:true,message:'请输入路由路径',trigger: 'blur'}],
+    ComponentPath:[{required:true,message:'请输入组件路径',trigger: 'blur'}],
+    Identification:[{required:true,message:'请输入权限标识',trigger: 'blur'}],
+    IsStatus:[{required:true,message:'请输入权限标识',trigger: 'blur'}],
+});
+
+const tableConfig=reactive<tableConfigs>({
+    pageIndex:1,
+    pageSize:10,
+    totalCount:0,
+    Items:[],
+    border:true,
+    rowKey:'Id',
+    tableColumn:[
+            {
+                type:'selection',
+                width:70
+            },
+            {
+                label:'菜单名称',
+                prop:'UserName',
+                width:200,
+            },
+            {
+                label:'类型',
+                prop:'AccountNumber',
+                width:70,
+            },
+            {
+                label:'路由名称',
+                prop:'RoleName',
+                width:150,
+            },
+            {
+                label:'路由路径',
+            },
+            {
+                label:'组件路径',
+            },
+            {
+                label:'权限标识',
+                width:200,
+            },
+            {
+                label:'状态',
+                width:90,
+            },
+            {
+                label:'排序',
+                width:100,
+            },
+            {
+                label:'操作',
+                width:170,
+                slotName:'handleBtn'
+            }
+    ] as tableOptions[]
+});
+watch(tableConfig,(val)=>{
+    getMenuSelect.PageIndex=val.pageIndex;
+    getMenuSelect.PageSize=val.pageSize;
+})
+watch(dialogVisible,(val)=>{
+    if(val){
+        if(AddModifyView.value!=3){
+            apiMenu.handleTreeSelect().then(res=>{
+                console.log(res);
+                menuTreeSelectData.value=res;
+            })
+        }
+    }
+})
+
+const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
+    if(!ruleFormRef)
+        return;
+    ruleFormRef.validate((val)=>{
+        if(val){
+            if(AddModifyView.value==1){
+                menuPopedom.value.Id=createGuid();
+            }
+            apiMenu.ModifyAdd(menuPopedom.value,AddModifyView.value).then(res=>{
+                if(res){
+                    ElMessage.success(AddModifyView.value==1?"新增成功":"修改成功");
+                    dialogVisible.value=false;
+                    handleLoad();
+                }
+            })
+        }
+    })
+}
+
+//删除
+const handleDelete=(row)=>{
+    console.log(row);
+}
+//修改
+const handleEdit=(row)=>{
+    console.log(row);
+}
+//查看
+const handleView=(row)=>{
+    console.log(row);
+}
+
+//分页内容
+const handelPagination=()=>{
+
+}
+//添加事件
+const handleAdd=()=>{
+    AddModifyView.value=1;
+    dialogVisible.value=true;
+}
+
+//加载事件
+const handleLoad=()=>{
+
+}
+
+</script>
