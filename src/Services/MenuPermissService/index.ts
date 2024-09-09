@@ -1,13 +1,14 @@
 import { getDto } from "..";
 import { PostService } from "../apiExtend";
 import { treeSelectDto } from "../model";
-import { SysMenuPermissionsDto } from "./model";
+import { PagedResultInPut, PopedTableOutPut, SysMenuPermissionsDto } from "./model";
 
 enum apiType{
     Insert='PermissionMenu/InsertMenu',
     Update='PermissionMenu/UpdateMenu',
     GetMenu='PermissionMenu/GetMenu',
     TreeSelect='PermissionMenu/TreeSelect',
+    PagedResult='PermissionMenu/PagedResult',
 }
 
 export default class menuService{
@@ -19,5 +20,8 @@ export default class menuService{
     }
     handleTreeSelect(){
         return PostService<treeSelectDto>(apiType.TreeSelect);
+    }
+    handleLoad(data:PagedResultInPut){
+        return PostService<PopedTableOutPut>(apiType.PagedResult,data);
     }
 }

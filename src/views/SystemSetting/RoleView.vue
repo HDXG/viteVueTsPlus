@@ -71,7 +71,7 @@
         <div>
             <el-input v-model="treeSelectStr"  placeholder="菜单/权限名称" style="width: 240px"  :prefix-icon="Search"></el-input>
             &emsp;<ElButton type="primary">展开</ElButton> <el-checkbox v-model="fatherAndSon" label="父子联动" size="large" />
-            <el-tree ref="treeRef"  :data="treePermissions" show-checkbox default-expand-all node-key="id"
+            <el-tree ref="treeRef"  :data="treePermissions" :default-checked-keys="treeDefaultList" show-checkbox default-expand-all node-key="id"
                 :check-strictly="!fatherAndSon" :highlight-current="true" style="margin-top: 10px;" />
         </div>
         <template #footer>
@@ -85,11 +85,11 @@
 
 <script setup lang="ts">
 import {  Search } from '@element-plus/icons-vue'
-import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
+import { confirmDelete,confirm } from '@/components/DesignPlus/ElConfirm';
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
 import { getDto } from '@/Services';
 import RoleService from '@/Services/RoleService';
-import { GetPageRoleDto, SysRoleDto } from '@/Services/RoleService/model';
+import { GetPageRoleDto, InsertRoleMenuInPut, SysRoleDto } from '@/Services/RoleService/model';
 import { createGuid } from '@/util/guid';
 import { ElMessage, FormInstance,ElTree } from 'element-plus';
 import { treeDto } from '@/Services/model';
@@ -98,14 +98,19 @@ const drawerVisible=ref<boolean>(false);
 const drawerTitle=ref<string>('');
 const treeSelectStr=ref<string>('');
 const treePermissions=ref<treeDto[]>([]);
+const treeDefaultList=ref([]);
 const treeRef = ref<InstanceType<typeof ElTree>|any>();
 const fatherAndSon=ref<boolean>(false);
 const AddModifyView=ref<Number>(1);
 const ruleFormRef = ref<FormInstance>();
-    const rules=ref({
+const InsertRoleMenuDto=reactive<InsertRoleMenuInPut>({
+    Id:'',
+    menuList:[]
+});
+const rules=ref({
         RoleName:[ { required: true, message: '请输入角色名称', trigger: 'blur' },],
         Note:[ { required: true, message: '请输入角色备注', trigger: 'blur' },],
-    })
+})
     const roleDto=ref<SysRoleDto>({
         Id:'',
         RoleName:'',
@@ -179,20 +184,28 @@ const ruleFormRef = ref<FormInstance>();
         getRoleSelect.PageIndex=val.pageIndex;
         getRoleSelect.PageSize=val.pageSize;
     })
-    watch(fatherAndSon,(val)=>{
-        console.log(val);
-    })
 //分配权限
 function handleAssign(row:SysRoleDto){
-    roleApi.handleTreePermissions().then(res=>{
-        treePermissions.value=res;
+    roleApi.handleTreePermissions({Id:row.Id} as getDto).then(res=>{
         drawerTitle.value=`【${row.RoleName}】分配权限`;
         drawerVisible.value=true;
+        treePermissions.value=res.menuTreeList;
+        treeDefaultList.value=res.roleMenIdList;
+        InsertRoleMenuDto.Id=row.Id;
     })
 }
 //分配权限确定
 function confirmClick(){
-    console.log(treeRef.value.getCheckedKeys());
+    if(treeRef.value.getCheckedKeys().length==0)
+        return drawerVisible.value=false;
+    confirm('确定要添加以下权限嘛',()=>{
+        InsertRoleMenuDto.menuList=treeRef.value.getCheckedKeys();
+        roleApi.InsertRoleMenu(InsertRoleMenuDto).then(res=>{
+            if(res)
+                ElMessage.success('添加权限成功');
+            drawerVisible.value=false;
+        })
+    });
 }
 
     const handelPagination=()=>{

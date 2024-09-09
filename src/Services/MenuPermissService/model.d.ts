@@ -1,4 +1,4 @@
-import { HasCreateDeleteEntityDto } from "..";
+import { HasCreateDeleteEntityDto,PagingBase } from "..";
 
 export interface SysMenuPermissionsDto extends HasCreateDeleteEntityDto {
     MenuName:string,
@@ -10,4 +10,14 @@ export interface SysMenuPermissionsDto extends HasCreateDeleteEntityDto {
     MenuType:number,
     IsStatus:boolean,
     Identification?:string,
+}
+
+
+export interface PopedTableOutPut{
+    TotalCount:number,
+    Items:SysMenuPermissionsDto[]
+}
+
+export interface PagedResultInPut extends PagingBase{
+    menuName:string,
 }

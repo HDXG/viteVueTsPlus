@@ -12,7 +12,7 @@ export  interface response<resData>{
 //通用字段内容
 
 export interface HasCreateDeleteEntityDto{
-    Id?:string,
+    Id:string,
     IsDelete?:boolean,
     CreateTime?:Date
 }

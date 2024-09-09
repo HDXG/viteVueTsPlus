@@ -12,9 +12,14 @@
         <BtnAdd @handleAdd="handleAdd"></BtnAdd>
     </div>  
     <TableView v-model:tableOption="tableConfig" @handelPagination="handelPagination"  >
+        <template #menuType="{row}">
+            <el-tag :key="row.IsStatus" :type="row.MenuType==0?'warning':row.MenuType==1?'success':'primary'" size="small"   >
+                {{ row.MenuType==0?'目录':row.MenuType==1?"菜单":"按钮" }}
+            </el-tag>
+        </template>
         <template #Status="{row}">
             <el-tag :key="row.IsStatus" :type="row.IsStatus?'success':'danger'" size="small"   >
-                {{ row.IsStatus?'正常':'禁用' }}
+                {{ row.IsStatus?'显示':'隐藏' }}
             </el-tag>
         </template>
         <template #handleBtn="{row}">
@@ -73,18 +78,18 @@
 <script setup lang="ts">
 import {ElMessage, FormInstance} from 'element-plus'
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
-import { SysMenuPermissionsDto } from '@/Services/MenuPermissService/model';
+import { PagedResultInPut, SysMenuPermissionsDto } from '@/Services/MenuPermissService/model';
 import {menuService} from '@/Services/public-Index';
 import { treeSelectDto } from '@/Services/model';
 import { createGuid } from '@/util/guid';
 
 const apiMenu=new menuService();
-
 const AddModifyView=ref<number>(1);
 const dialogVisible=ref<boolean>(false);
 const ruleFormRef=ref<FormInstance>();
 const menuTreeSelectData=ref<treeSelectDto[] | any>([]);
-const getMenuSelect=reactive({
+
+const getMenuSelect=reactive<PagedResultInPut>({
     menuName:'',
     PageIndex:1,
     PageSize:10,
@@ -126,36 +131,41 @@ const tableConfig=reactive<tableConfigs>({
             },
             {
                 label:'菜单名称',
-                prop:'UserName',
+                prop:'MenuName',
                 width:200,
             },
             {
                 label:'类型',
-                prop:'AccountNumber',
+                slotName:'menuType',
                 width:70,
             },
             {
                 label:'路由名称',
-                prop:'RoleName',
+                prop:'RouteName',
                 width:150,
             },
             {
                 label:'路由路径',
+                prop:'MenuUrl',
             },
             {
                 label:'组件路径',
+                prop:'ComponentPath',
             },
             {
                 label:'权限标识',
+                prop:'Identification',
                 width:200,
             },
             {
                 label:'状态',
                 width:90,
+                slotName:'Status',
             },
             {
                 label:'排序',
                 width:100,
+                prop:'Order',
             },
             {
                 label:'操作',
@@ -172,7 +182,6 @@ watch(dialogVisible,(val)=>{
     if(val){
         if(AddModifyView.value!=3){
             apiMenu.handleTreeSelect().then(res=>{
-                console.log(res);
                 menuTreeSelectData.value=res;
             })
         }
@@ -213,7 +222,7 @@ const handleView=(row)=>{
 
 //分页内容
 const handelPagination=()=>{
-
+    handleLoad();
 }
 //添加事件
 const handleAdd=()=>{
@@ -223,7 +232,13 @@ const handleAdd=()=>{
 
 //加载事件
 const handleLoad=()=>{
-
+    apiMenu.handleLoad(getMenuSelect).then(res=>{
+        tableConfig.Items=res.Items;
+        tableConfig.totalCount=res.TotalCount;
+    })
 }
+onMounted(()=>{
+    handleLoad();
+})
 
 </script>

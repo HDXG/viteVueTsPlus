@@ -1,4 +1,5 @@
-import { HasCreateDeleteEntityDto, PagingBase } from "@/Services";
+import { getDto, HasCreateDeleteEntityDto, PagingBase } from "@/Services";
+import { treeDto } from "../model";
 
 
 export interface SysRoleDto extends HasCreateDeleteEntityDto{
@@ -17,4 +18,14 @@ export interface GetPageRoleDto extends PagingBase{
 export interface RoleListDto{
     Id:string,
     RoleName:string
+}
+
+export interface TreePermissionsDto{
+    menuTreeList:treeDto[],
+    roleMenIdList:[]
+}
+
+
+export interface InsertRoleMenuInPut extends getDto {
+    menuList:string[]
 }
