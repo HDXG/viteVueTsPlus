@@ -35,10 +35,10 @@
                     <el-tree-select  v-model="menuPopedom.Fatherid"   check-strictly  :data="menuTreeSelectData" :render-after-expand="false"/>
                 </el-form-item>
                 <el-form-item :label="menuPopedom.MenuType==0 || menuPopedom.MenuType==1?'菜单名称':'按钮名称'" prop="MenuName">
-                    <el-input v-model="menuPopedom.MenuName" />
+                    <el-input :readonly="AddModifyView==3" v-model="menuPopedom.MenuName" />
                 </el-form-item>
                 <el-form-item label="菜单类型" prop="MenuType">
-                    <el-radio-group v-model="menuPopedom.MenuType">
+                    <el-radio-group v-model="menuPopedom.MenuType" @change="radioChangeType(menuPopedom.MenuType)">
                         <el-radio :value="0">目录</el-radio>
                         <el-radio :value="1">菜单</el-radio>
                         <el-radio :value="2">按钮</el-radio>
@@ -65,6 +65,9 @@
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item label="显示顺序">
+                    <el-input-number :min="0" v-model="menuPopedom.Order"/>
+                </el-form-item> 
             </el-form>
         </div>
         <template #footer>
@@ -82,6 +85,7 @@ import { PagedResultInPut, SysMenuPermissionsDto } from '@/Services/MenuPermissS
 import {menuService} from '@/Services/public-Index';
 import { treeSelectDto } from '@/Services/model';
 import { createGuid } from '@/util/guid';
+import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
 
 const apiMenu=new menuService();
 const AddModifyView=ref<number>(1);
@@ -107,6 +111,7 @@ const menuPopedom=ref<SysMenuPermissionsDto>({
     Identification:'',
     IsDelete:true,
     IsStatus:true,
+    Order:0,
 })
 const rules=ref({
     MenuName:[{ required: true, message: '请输入名称', trigger: 'blur' }],
@@ -126,13 +131,9 @@ const tableConfig=reactive<tableConfigs>({
     rowKey:'Id',
     tableColumn:[
             {
-                type:'selection',
-                width:70
-            },
-            {
                 label:'菜单名称',
                 prop:'MenuName',
-                width:200,
+                width:150,
             },
             {
                 label:'类型',
@@ -155,7 +156,7 @@ const tableConfig=reactive<tableConfigs>({
             {
                 label:'权限标识',
                 prop:'Identification',
-                width:200,
+                width:180,
             },
             {
                 label:'状态',
@@ -180,15 +181,15 @@ watch(tableConfig,(val)=>{
 })
 watch(dialogVisible,(val)=>{
     if(val){
-        if(AddModifyView.value!=3){
-            apiMenu.handleTreeSelect().then(res=>{
-                menuTreeSelectData.value=res;
-            })
-        }
+        apiMenu.handleTreeSelect().then(res=>{
+            menuTreeSelectData.value=res;
+        })
     }
 })
 
 const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
+    if(AddModifyView.value==3)
+        return dialogVisible.value=false;
     if(!ruleFormRef)
         return;
     ruleFormRef.validate((val)=>{
@@ -207,17 +208,41 @@ const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
     })
 }
 
+//菜单类型按钮
+const radioChangeType=(val:number)=>{
+    if(val==2){
+        menuPopedom.value.RouteName='';
+        menuPopedom.value.MenuUrl='';
+        menuPopedom.value.ComponentPath='';
+        menuPopedom.value.Icon='';
+    }
+}
+
 //删除
 const handleDelete=(row)=>{
-    console.log(row);
+    confirmDelete(()=>{
+        apiMenu.handleDelete({Id:row.Id}).then(res=>{
+            if(res){
+                ElMessage('删除成功');
+                handleLoad();
+            }
+        })
+    })
 }
 //修改
 const handleEdit=(row)=>{
-    console.log(row);
+    handleGet(row.Id,2);
 }
 //查看
-const handleView=(row)=>{
-    console.log(row);
+const handleView=(row)=>{  
+    handleGet(row.Id,3);
+}
+function handleGet(Id:string,type:number){
+    apiMenu.handleGet({Id:Id}).then(res=>{
+        AddModifyView.value=type;
+        menuPopedom.value=res;
+        dialogVisible.value=true;
+    })
 }
 
 //分页内容
@@ -226,6 +251,18 @@ const handelPagination=()=>{
 }
 //添加事件
 const handleAdd=()=>{
+    menuPopedom.value.Id='',
+    menuPopedom.value.MenuName='',
+    menuPopedom.value.RouteName='',
+    menuPopedom.value.MenuUrl='',
+    menuPopedom.value.ComponentPath='',
+    menuPopedom.value.Fatherid='00000000-0000-0000-0000-000000000000',
+    menuPopedom.value.Icon='',
+    menuPopedom.value.MenuType=0,
+    menuPopedom.value.Identification='',
+    menuPopedom.value.IsDelete=true,
+    menuPopedom.value.IsStatus=true,
+    menuPopedom.value.Order=0,
     AddModifyView.value=1;
     dialogVisible.value=true;
 }

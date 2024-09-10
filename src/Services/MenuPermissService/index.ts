@@ -9,6 +9,7 @@ enum apiType{
     GetMenu='PermissionMenu/GetMenu',
     TreeSelect='PermissionMenu/TreeSelect',
     PagedResult='PermissionMenu/PagedResult',
+    DeleteMenu='PermissionMenu/DeleteMenu',
 }
 
 export default class menuService{
@@ -23,5 +24,8 @@ export default class menuService{
     }
     handleLoad(data:PagedResultInPut){
         return PostService<PopedTableOutPut>(apiType.PagedResult,data);
+    }
+    handleDelete(data:getDto){
+        return PostService<boolean>(apiType.DeleteMenu,data);
     }
 }

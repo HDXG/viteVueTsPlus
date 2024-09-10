@@ -10,6 +10,7 @@ export interface SysMenuPermissionsDto extends HasCreateDeleteEntityDto {
     MenuType:number,
     IsStatus:boolean,
     Identification?:string,
+    Order:number
 }
 
 
