@@ -2,7 +2,7 @@
     <el-dropdown trigger="click" @command="handelCommand" style="margin-top: 13px;;">
         <div class="user-link "  >
             <img src="../../assets/icons/User.svg" width="20" height="20" alt="">&nbsp;
-            <span> Design</span>
+            <span style="font-size: 18px;">{{ userName }}</span>
         </div>
         <template #dropdown>
             <el-dropdown-menu>
@@ -16,8 +16,10 @@
 import { ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
 
+const userName=ref<string>('');
 
 var router=useRouter();
+var store=useStore();
 
 function handelCommand(value){
   //退出 清空localSotre
@@ -31,13 +33,12 @@ function handelCommand(value){
             type: 'warning',
         }
     ).then(() => {
-      // store.commit('saveUserInfo',null);
-      // store.commit('saveMenuList',[]);
-      // store.commit("savaToken",'');
-      // store.commit('saveTabsList',[]);
-      // store.commit('savaRoleBtn',[]);
         router.push('/Login');
     })
     }
 }
+
+onMounted(()=>{
+    userName.value=store.getters["home/getUserInfo"].UserName
+})
 </script>

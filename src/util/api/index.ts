@@ -33,7 +33,7 @@ Request.interceptors.response.use((response)=>{
     if (error && error.response) {
         switch (error.response.status) {
             case 400:
-                ElMessage.error('错误请求');
+                ElMessage.error('错误请求/参数异常');
                 break
             case 401:
                 ElMessage.error('未授权，请重新登录')
@@ -50,9 +50,9 @@ Request.interceptors.response.use((response)=>{
             case 408:
                 ElMessage.error('请求超时')
                 break
-            case 500:
-                ElMessage.error('服务器端出错')
-                break
+            // case 500:
+            //     ElMessage.error('服务器端出错')
+            //     break
             case 501:
                 ElMessage.error('网络未实现')
                 break
@@ -64,9 +64,7 @@ Request.interceptors.response.use((response)=>{
                 break
             case 504:
                 ElMessage.error('网络超时')
-                break
-            default:
-                ElMessage.error(`连接错误${error.response.status}`)
+                break;
         }
     } else {
         ElMessage.error("连接到服务器失败");

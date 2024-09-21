@@ -25,13 +25,13 @@
     </div>
 </template>
 <script setup lang="ts">
-import {loginUserDto, loginUserRequest} from '@/Services/HomeService/model/loginUser';
+import {loginUserDto, loginUserRequest} from '@/Services/UserService/model';
 import { ElMessage,FormInstance } from 'element-plus'
-import HomeService from '@/Services/HomeService';
-const homeApi=new HomeService();
+import {userService} from '@/Services/public-Index';
+const userApi=new userService();
 const user=reactive<loginUserDto>({
         AccountNumber:'admin',
-        PassWord:'admin11',
+        PassWord:'admin111',
     });
 var router=useRouter();
 var store=useStore();
@@ -50,7 +50,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid) => {
         if (valid) {
-            homeApi.GetLoginUser(user).then((res:loginUserRequest)=>{
+            userApi.handleUserLogin(user).then((res:loginUserRequest)=>{
                 ElMessage.success('登录成功');
                 res.token='1';
                 store.commit('home/savaUserInfo',res);

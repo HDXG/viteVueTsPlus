@@ -12,18 +12,10 @@ const routes:RouteRecordRaw[] =[
             require:true//用于控制当前路由 不进行动态路由判断
         }
     },
-    {
-        path: '/404',
-        name: '404',
-        component:()=>import('@/components/errorView.vue'),
-        meta:{
-            title:"异常信息",
-            require:true//用于控制当前路由 不进行动态路由判断
-        }
-    },
+    
     {
         path: '/',
-        name: '/',
+        name:'/',
         component:()=>import('@/Layout/IndexView.vue'),
         redirect: '/Home',
         meta:{
@@ -33,11 +25,20 @@ const routes:RouteRecordRaw[] =[
         children:[
             {
                 path:'/Home',
-                name:'首页',
+                name:'Home',
                 component:()=>import('@/Layout/dashboardView.vue'),
                 meta:{
                     title:'首页',
                     require:true
+                }
+            },
+            {
+                path: '/404',
+                name: '404',
+                component:()=>import('@/components/errorView.vue'),
+                meta:{
+                    title:"异常信息",
+                    require:true//用于控制当前路由 不进行动态路由判断
                 }
             },
             {
@@ -77,6 +78,5 @@ const routes:RouteRecordRaw[] =[
         ]
     },
 ];
-
 
 export default routes;

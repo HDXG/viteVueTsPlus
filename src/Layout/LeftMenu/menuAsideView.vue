@@ -8,7 +8,7 @@
             </div>
             <!--导航区域-->
             <el-menu  :default-active="route.path" background-color="#304156" text-color="#bfcbd9"  :collapse="isCollapse"  :router="true">
-                <menu-view v-for="item in menuData" :key="item.path" :item="item"></menu-view>
+                <menu-view v-for="item in menuData" :key="item.MenuUrl" :item="item"></menu-view>
             </el-menu>
         </el-scrollbar>
     </el-aside>

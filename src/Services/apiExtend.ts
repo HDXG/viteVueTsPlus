@@ -30,6 +30,11 @@ function  PostService<res>(url:string,data:any=null){
             servicePromise.then(res=>{
                 resolve(res.data.data);
                 
+            }).catch(function(error){
+                    //如果是500 返回一下错误信息内容
+                if(error.response.status==500){
+                    ElMessage.error(error.response.data.msg);
+                }
             });
         })    
 }

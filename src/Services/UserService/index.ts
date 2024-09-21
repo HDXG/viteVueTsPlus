@@ -1,13 +1,15 @@
 
 import { PostService } from "../apiExtend"
-import { GetUserListDto, GetUserOutPut, getUserPageListDto, InsertUserOutPut } from "./model"
+import { GetUserListDto, GetUserOutPut, getUserPageListDto, InsertUserOutPut, loginUserDto, loginUserMenuDto, loginUserRequest } from "./model"
 import {getDto, getPageListDto} from '../index.d'
 enum apiType{
     list='Users/GetPagedResult',
     insert='Users/InsertUser',
     update='Users/UpdateUser',
     delete='Users/Delete',
-    getDto='Users/GetUser'
+    getDto='Users/GetUser',
+    getLoginUser='Users/GetLoginUser',
+    getByUserIdMenuList='Users/GetByUserIdMenu',
 }
 
 export default class userService {
@@ -22,5 +24,11 @@ export default class userService {
     }
     handleDelete(data:getDto){
         return PostService<boolean>(apiType.delete,data);
+    }
+    handleUserLogin(data:loginUserDto){
+        return PostService<loginUserRequest>(apiType.getLoginUser,data);
+    }
+    getByUserIdMenuList(data:any){
+        return PostService<loginUserMenuDto[]>(apiType.getByUserIdMenuList,data);
     }
 }

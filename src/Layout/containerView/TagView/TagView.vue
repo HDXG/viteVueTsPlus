@@ -18,28 +18,40 @@ import storage from '@/util/localStorageExpand/storage';
 import { keyEnum } from '@/util/localStorageExpand/keyEnum';
     const dynamicTags=ref<Array<tagList>>([]);
     const selectIndex=ref<number>(0);
-    const selectIndexClear=ref<number>(0);
     var router=useRouter();
     //删除TagView
     const handleClose=((index)=>{
+        if(!dynamicTags.value[index].checked){
+            //首先判断当前删除的顺序
+            let _indexCheck=-1;
+            dynamicTags.value.splice(index,1);
+            dynamicTags.value.map((item,index1)=>{
+                if(item.checked){
+                    if(index>index1){
+                        _indexCheck=index1;
+                    }else if(index1>index) {
+                        _indexCheck=dynamicTags.value.length-1;
+                    }else{
+                        _indexCheck=index;
+                    }
+                }
+            })
+            handleClick(_indexCheck);
+            return;
+        }
         let tagLength=dynamicTags.value.length;
         let _index=index==tagLength?tagLength-1:
             tagLength>index?index==tagLength-1?index-1:index:0;
         dynamicTags.value.splice(index,1);
-        if(selectIndexClear.value!=_index && _index!=0 && selectIndexClear.value!=dynamicTags.value.length){
-            _index=selectIndexClear.value;
-        }
         handleClick(_index);
     });
     //设置选中的tag
     const handleClick=(index:number)=>{
-        selectIndexClear.value=index;
         dynamicTags.value.map((item)=>{
             item.checked=false;
         });
         dynamicTags.value[index].checked=true;
         storage.setItem(keyEnum.tagView,dynamicTags.value);
-        if(selectIndex.value!=index)
             router.push(dynamicTags.value[index].path);
     }
     function dynamicTagsChecked(index){
@@ -65,18 +77,20 @@ import { keyEnum } from '@/util/localStorageExpand/keyEnum';
     onBeforeRouteUpdate((route)=>{
         var index=-1;
         dynamicTags.value.map((item,_index)=>{
-            if(item.path==route.path && item.name==route.name){
+            if(item.path==route.path && item.name==route.meta.title){
                 index=_index;
             }
         })
         if(index==-1){
             dynamicTags.value.push({
-                name:route.name,
+                name:route.meta.title,
                 checked:true,
                 path:route.path
             } as tagList);
             index=dynamicTags.value.length-1;
         }
+        if(selectIndex.value==index)
+            return;
         selectIndex.value=index;
         handleClick(index);
         

@@ -93,6 +93,7 @@ import { GetPageRoleDto, InsertRoleMenuInPut, SysRoleDto } from '@/Services/Role
 import { createGuid } from '@/util/guid';
 import { ElMessage, FormInstance,ElTree } from 'element-plus';
 import { treeDto } from '@/Services/model';
+import handleRefreshMenu from '@/util/Public-index'
 const dialogVisible=ref<boolean>(false);
 const drawerVisible=ref<boolean>(false);
 const drawerTitle=ref<string>('');
@@ -204,6 +205,7 @@ function confirmClick(){
             if(res)
                 ElMessage.success('添加权限成功');
             drawerVisible.value=false;
+            handleRefreshMenu.handleRefreshMenu();
         })
     });
 }

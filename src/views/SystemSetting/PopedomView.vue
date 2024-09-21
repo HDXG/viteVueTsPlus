@@ -22,6 +22,9 @@
                 {{ row.IsStatus?'显示':'隐藏' }}
             </el-tag>
         </template>
+        <template #IconName="{row}" >
+            <SvgIcon v-if="row.MenuType!=2" :icon-class="row.Icon" size="20" ></SvgIcon>
+        </template>
         <template #handleBtn="{row}">
             <BtnAction v-model:rowDto="menuPopedom" @handle-delete="handleDelete(row)" @handle-edit="handleEdit(row)" 
                 @handle-view="handleView(row)" ></BtnAction>
@@ -86,6 +89,7 @@ import {menuService} from '@/Services/public-Index';
 import { treeSelectDto } from '@/Services/model';
 import { createGuid } from '@/util/guid';
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
+import handleRefreshMenu from '@/util/Public-index'
 
 const apiMenu=new menuService();
 const AddModifyView=ref<number>(1);
@@ -154,6 +158,11 @@ const tableConfig=reactive<tableConfigs>({
                 prop:'ComponentPath',
             },
             {
+                label:'图标',
+                width:100,
+                slotName:'IconName'
+            },
+            {
                 label:'权限标识',
                 prop:'Identification',
                 width:180,
@@ -202,6 +211,9 @@ const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
                     ElMessage.success(AddModifyView.value==1?"新增成功":"修改成功");
                     dialogVisible.value=false;
                     handleLoad();
+                    if(AddModifyView.value==2){
+                        handleRefreshMenu.handleRefreshMenu();
+                    }
                 }
             })
         }

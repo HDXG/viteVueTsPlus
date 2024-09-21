@@ -1,21 +1,25 @@
-import { loginUserRequest } from "@/Services/HomeService/model/loginUser";
+
 import { keyEnum } from "@/util/localStorageExpand/keyEnum";
 import storage from "@/util/localStorageExpand/storage";
 import encryptionExpand from '@/util/encryptionExpand'
+import { loginUserMenuDto, loginUserRequest } from "@/Services/UserService/model";
+
 
 const encryption=new encryptionExpand();
+
 export default  {
     namespaced: true,
     state:{
-        userInfo: encryption.decryption(storage.getItem(keyEnum.userInfo))|| null|| {} as loginUserRequest["user"],
+        UserInfo: encryption.decryption(storage.getItem(keyEnum.userInfo))|| null|| {} as loginUserRequest["UserInfo"],
         token:encryption.decryption(storage.getItem(keyEnum.token)) || null || {} as loginUserRequest["token"],
-        menuList:storage.getItem(keyEnum.menuList)||null ||[] as loginUserRequest["menuList"],
+        menuList:[] as loginUserRequest["menuList"],
     },
     getters: {
-        getUserInfo:(state)=>state.userInfo,
+        getUserInfo:(state)=>state.UserInfo as loginUserRequest["UserInfo"],
         getToken:(state)=>state.token,
-        getMenuList:(state)=>state.menuList
-
+        getMenuList:(state)=>{
+            return state.menuList;
+        }
     },
     mutations:{
         /**
@@ -24,12 +28,15 @@ export default  {
          * @param userRequest 
          */
         savaUserInfo(state,userRequest:loginUserRequest){
-            state.userInfo=userRequest.user;
+            state.UserInfo=userRequest.UserInfo;
             state.token=userRequest.token;
             state.menuList=userRequest.menuList;
-            storage.setItem(keyEnum.userInfo,encryption.encryption(userRequest.user));
+            storage.setItem(keyEnum.userInfo,encryption.encryption(userRequest.UserInfo));
             storage.setItem(keyEnum.token,encryption.encryption(userRequest.token));
-            storage.setItem(keyEnum.menuList,userRequest.menuList);
+            //storage.setItem(keyEnum.menuList,userRequest.menuList);
         },
+        savaUserMenuList(state,list:loginUserMenuDto[]){
+            state.menuList=list;
+        }
     }
 }

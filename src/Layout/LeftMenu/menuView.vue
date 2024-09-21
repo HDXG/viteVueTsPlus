@@ -1,19 +1,19 @@
 <template>
-    <el-sub-menu v-if="item.children!=undefined && item.children.length > 0" :index="item.path">
+    <el-sub-menu v-if="item.children!=undefined && item.children.length > 0" :index="item.MenuUrl">
         <template #title>
-            <svg-icon :icon-class="item.icon" size="15"></svg-icon>
+            <svg-icon :icon-class="item.Icon" size="18"></svg-icon>
             <span>{{ item.title }}</span>
         </template>
         <!-- 组件自调 -->
         <s-menu
             v-for="ele in item.children"
-            :index="ele.path"
+            :index="ele.MenuUrl"
             :key="ele"
             :item="ele"
             />
     </el-sub-menu>
-        <el-menu-item  v-else :index="item.path">
-            <svg-icon :icon-class="item.icon" size="15"></svg-icon>
+        <el-menu-item  v-else :index="item.MenuUrl">
+            <svg-icon :icon-class="item.Icon" size="18"></svg-icon>
             <span>{{ item.title }}</span>
         </el-menu-item>
 
