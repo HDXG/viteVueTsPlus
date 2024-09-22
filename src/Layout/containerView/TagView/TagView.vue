@@ -16,9 +16,11 @@
 import { tagList } from './tagView';
 import storage from '@/util/localStorageExpand/storage';
 import { keyEnum } from '@/util/localStorageExpand/keyEnum';
+import routesFilters from '@/router/routerFiltering'
     const dynamicTags=ref<Array<tagList>>([]);
     const selectIndex=ref<number>(0);
-    var router=useRouter();
+    const router=useRouter();
+    const store=useStore();
     //删除TagView
     const handleClose=((index)=>{
         if(!dynamicTags.value[index].checked){
@@ -51,15 +53,15 @@ import { keyEnum } from '@/util/localStorageExpand/keyEnum';
             item.checked=false;
         });
         dynamicTags.value[index].checked=true;
-        storage.setItem(keyEnum.tagView,dynamicTags.value);
-            router.push(dynamicTags.value[index].path);
+        store.commit('home/savaTagViewList', dynamicTags.value)
+        router.push(dynamicTags.value[index].path);
     }
     function dynamicTagsChecked(index){
         return dynamicTags.value[index].checked
     }
-    onMounted(()=>{
-        var tagListEn=storage.getItem(keyEnum.tagView);
-        if(tagListEn==null){
+    function handleLoad(){
+        var tagListEn=routesFilters.routesFilters();
+        if(tagListEn==null || tagListEn.length==0){
             dynamicTags.value.push({
                 name:'首页',
                 checked:true,
@@ -73,6 +75,9 @@ import { keyEnum } from '@/util/localStorageExpand/keyEnum';
                 return handleClick(index);
             }
         })
+    }
+    onMounted(()=>{
+        handleLoad();
     });
     onBeforeRouteUpdate((route)=>{
         var index=-1;

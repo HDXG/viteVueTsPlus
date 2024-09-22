@@ -3,7 +3,7 @@ import { keyEnum } from "@/util/localStorageExpand/keyEnum";
 import storage from "@/util/localStorageExpand/storage";
 import encryptionExpand from '@/util/encryptionExpand'
 import { loginUserMenuDto, loginUserRequest } from "@/Services/UserService/model";
-
+import { tagList } from "@/Layout/containerView/TagView/tagView";
 
 const encryption=new encryptionExpand();
 
@@ -13,12 +13,16 @@ export default  {
         UserInfo: encryption.decryption(storage.getItem(keyEnum.userInfo))|| null|| {} as loginUserRequest["UserInfo"],
         token:encryption.decryption(storage.getItem(keyEnum.token)) || null || {} as loginUserRequest["token"],
         menuList:[] as loginUserRequest["menuList"],
+        tagViewList:null ||[] as tagList[]
     },
     getters: {
         getUserInfo:(state)=>state.UserInfo as loginUserRequest["UserInfo"],
         getToken:(state)=>state.token,
         getMenuList:(state)=>{
             return state.menuList;
+        },
+        getTagViewList:(state)=>{
+            return state.tagViewList;
         }
     },
     mutations:{
@@ -37,6 +41,9 @@ export default  {
         },
         savaUserMenuList(state,list:loginUserMenuDto[]){
             state.menuList=list;
+        },
+        savaTagViewList(state,list:tagList[]){
+            state.getTagViewList=list;
         }
     }
 }

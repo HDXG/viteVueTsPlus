@@ -1,7 +1,7 @@
 <template>
     <el-dropdown trigger="click" @command="handelCommand" style="margin-top: 13px;;">
-        <div class="user-link "  >
-            <img src="../../assets/icons/User.svg" width="20" height="20" alt="">&nbsp;
+        <div class="user-link">
+            <svg-icon icon-class="User" size="20"></svg-icon>&nbsp;
             <span style="font-size: 18px;">{{ userName }}</span>
         </div>
         <template #dropdown>

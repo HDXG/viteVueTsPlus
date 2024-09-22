@@ -45,7 +45,7 @@
     background-color:#304156;
     color: #fff;
     overflow-y: auto;
-    transition: width 0.4s;
+    transition:0.3s;
     .log{
         position: absolute;
         top:0px;
@@ -57,7 +57,7 @@
         line-height: 50px;
         vertical-align: auto;
         color: #fff;
-        transition: width 1s;
+        transition:linear 1s;
         width: 100%;
         background-color: #2d3748;
     }

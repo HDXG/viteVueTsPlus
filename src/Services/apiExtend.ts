@@ -31,9 +31,11 @@ function  PostService<res>(url:string,data:any=null){
                 resolve(res.data.data);
                 
             }).catch(function(error){
+                if(error.response!=undefined){
                     //如果是500 返回一下错误信息内容
-                if(error.response.status==500){
-                    ElMessage.error(error.response.data.msg);
+                    if(error.response.status==500){
+                        ElMessage.error(error.response.data.msg);
+                    }
                 }
             });
         })    
