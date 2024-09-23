@@ -29,7 +29,7 @@ watch(pageOption.value,(val:pageModel)=>{
     pageOption.value=val;
 })
 
-const handleCurrentChange=()=>{ 
+const handleCurrentChange=()=>{
     emit('pagination')
 }
 const handleSizeChange=()=>{ 

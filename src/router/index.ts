@@ -18,7 +18,7 @@ const encryption=new encryptionExpand();
 router.beforeEach((to, _from, next) => {
     startNprogress();
     document.title = to.meta.title as string;
-    let userInfo=storage.getItem(keyEnum.userInfo);
+    let userInfo=encryption.decryption(storage.getItem(keyEnum.userInfo));
     let token=encryption.decryption(storage.getItem(keyEnum.token));
     //当前是登录页不进行任何判断
     if(to.name=="Login"){
@@ -47,7 +47,7 @@ router.afterEach(()=>{
 })
 
 window.addEventListener('popstate', () => {  
-    let userInfo=storage.getItem(keyEnum.userInfo);
+    let userInfo=encryption.decryption(storage.getItem(keyEnum.userInfo));
     let token=encryption.decryption(storage.getItem(keyEnum.token));
     //当前是用户未登录内容
     if(userInfo==null || token==null){

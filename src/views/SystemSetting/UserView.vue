@@ -70,8 +70,7 @@ import {userService,RoleService} from '@/Services/public-Index';
 import { createGuid } from '@/util/guid';
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
 import { getDto } from '@/Services';
-import { RoleListDto } from '@/Services/RoleService/model';
-const router=useRouter();
+import { RoleListDto } from '@/Services/RoleService/model'
 const apiUser=new userService();
 const apiRole=new RoleService();
 const dialogVisible=ref<boolean>(false);

@@ -74,6 +74,14 @@ const routes:RouteRecordRaw[] =[
                     title:"菜单管理",
                 }
             },
+            {
+                path: '/SystemSetting/SeriLogView',
+                name: '日志管理',
+                component:()=>import('@/views/SystemSetting/SeriLogView.vue'),
+                meta:{
+                    title:"日志管理",
+                }
+            },
             
         ]
     },
