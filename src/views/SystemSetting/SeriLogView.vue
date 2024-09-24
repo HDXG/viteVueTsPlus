@@ -5,15 +5,34 @@
                 row.HttpStatusCode==500?'danger':'warning'">{{ row.HttpStatusCode==200?'成功':row.HttpStatusCode==500
                 ?'失败':row.HttpStatusCode }}</el-tag>
         </template>
+        <template #Action="{row}">
+            <ElButton type="primary" @click="handleGet(row.Id)">查看</ElButton>
+        </template>
     </TableView>
+    <el-drawer v-model="drawer" title="查看Action内容"  size="50%">
+        <vue-json-pretty :deep="3" selectableType="single" :showSelectController="true" :highlightMouseoverNode="true"
+            :data="serilogModel.ResponseJson" :showLength="true"  > </vue-json-pretty>
+    </el-drawer>
 </template>
 <script setup lang="ts">
+import VueJsonPretty from 'vue-json-pretty';
+import 'vue-json-pretty/lib/styles.css';
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
 import {SerilogService} from  '@/Services/public-Index'
-import { SerilogInPut } from '@/Services/Serilog/model';
+import { SerilogDto, SerilogInPut } from '@/Services/Serilog/model';
+const drawer=ref<boolean>(false);
 const apiSerilog=new SerilogService();
-
-
+const serilogModel=ref<SerilogDto>({
+    Id:0,
+    TimeStamp:'',
+    Url:'',
+    HttpMethod:"",
+    RequestJson:"",
+    HttpStatusCode:0,
+    ResponseJson:"",
+    ExceptionMessage:"",
+    TotalMilliseconds:""
+});
 const tableConfig=reactive<tableConfigs>({
     pageIndex:1,
     pageSize:10,
@@ -55,6 +74,11 @@ const tableConfig=reactive<tableConfigs>({
                 date:true,
                 prop:'TimeStamp',
                 width:200,
+            },
+            {
+                label:"操作",
+                slotName:'Action',
+                width:100
             }
     ] as tableOptions[]
 });
@@ -77,8 +101,13 @@ function handleLoad(){
         tableConfig.Items=res.Item;
     })
 }
+function handleGet(Id){
+    apiSerilog.getDto({Id:Id}).then(res=>{
+        serilogModel.value=res;
+        drawer.value=true;
+    })
+}
 onMounted(()=>{
-    console.log(1);
     handleLoad();
 })
 </script>

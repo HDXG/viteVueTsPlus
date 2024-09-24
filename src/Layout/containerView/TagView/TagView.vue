@@ -3,7 +3,7 @@
         
         <el-tag  
             class="tags-item" 
-            v-for="(tag,index) in dynamicTags" :key="tag.path+tag.key"
+            v-for="(tag,index) in dynamicTags" :key="tag.path"
             :class="dynamicTagsChecked(index)?'tags-itemCheck':'tags-itemHover'"
             :closable="dynamicTags[index].name=='首页'?false:true"
             @click="handleClick(index)"  @close="handleClose(index)">
@@ -18,7 +18,6 @@ import routesFilters from '@/router/routerFiltering'
     const dynamicTags=ref<Array<tagList>>([]);
     const selectIndex=ref<number>(0);
     const router=useRouter();
-    const route=useRoute();
     const store=useStore();
     //删除TagView
     const handleClose=((index)=>{
@@ -52,13 +51,8 @@ import routesFilters from '@/router/routerFiltering'
             item.checked=false;
         });
         dynamicTags.value[index].checked=true;
-        if (router.currentRoute.value.path === dynamicTags.value[index].path) {  
-            dynamicTags.value[index].key = Math.random(); // 生成新 key  
-        }  
         store.commit('home/savaTagViewList', dynamicTags.value);
-        router.push(dynamicTags.value[index].path).catch(err=>{
-            console.log(err);
-        });
+        router.push(dynamicTags.value[index].path);
     }
     function dynamicTagsChecked(index){
         return dynamicTags.value[index].checked
@@ -80,10 +74,7 @@ import routesFilters from '@/router/routerFiltering'
                 return handleClick(index);
             }
         })
-    } 
-    watch(()=>route.path,(val)=>{
-        console.log(val);
-    })
+    }
     onMounted(()=>{
         handleLoad();
     });
@@ -98,8 +89,7 @@ import routesFilters from '@/router/routerFiltering'
             dynamicTags.value.push({
                 name:route.meta.title,
                 checked:true,
-                path:route.path,
-                key:Math.random()
+                path:route.path
             } as tagList);
             index=dynamicTags.value.length-1;
         }
