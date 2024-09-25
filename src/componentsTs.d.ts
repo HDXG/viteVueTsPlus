@@ -52,7 +52,7 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
-    ErrorView: typeof import('./components/errorView.vue')['default']
+    ErrorView: typeof import('./views/errorView.vue')['default']
     IconSelect: typeof import('./components/DesignPlus/IconSelect.vue')['default']
     Index: typeof import('./components/Layout/Index.vue')['default']
     PageView: typeof import('./components/DesignPlus/pageView/index.vue')['default']
@@ -60,5 +60,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./components/SvgIcon/index.vue')['default']
     TableView: typeof import('./components/DesignPlus/tableView/index.vue')['default']
+    VueJsonPrettyView: typeof import('./components/VueJsonPrettyView.vue')['default']
   }
 }

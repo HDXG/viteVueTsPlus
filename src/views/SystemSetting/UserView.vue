@@ -1,5 +1,6 @@
 <template>
-    <el-form  :inline="true">
+    <div>
+        <el-form  :inline="true"  style="padding:10px;background-color:#fff">
         <el-form-item label="用户名称" prop="name">
             <el-input v-model="getUserSelect.userName"  placeholder="请输入用户名称" />
         </el-form-item>
@@ -8,10 +9,13 @@
             <el-button @click="getUserSelect.userName='';handleLoad();ElMessage.success('重置成功')">重置</el-button>
         </el-form-item>
     </el-form>
-    <div  style="margin-bottom: 10px;">
-        <BtnAdd @handleAdd="handleAdd"></BtnAdd>
     </div>
     <TableView v-model:tableOption="tableConfig" @handelPagination="handelPagination"  >
+        <template #header>
+            <div  style="margin-bottom: 10px;">
+            <BtnAdd @handleAdd="handleAdd"></BtnAdd>
+        </div>
+        </template>
         <template #Status="{row}">
             <el-tag :key="row.IsStatus" :type="row.IsStatus?'success':'danger'" size="small"   >
                 {{ row.IsStatus?'正常':'禁用' }}

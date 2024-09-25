@@ -1,5 +1,5 @@
 <template>
-    <el-form  :inline="true">
+    <el-form  style="padding:10px;background-color:#fff" :inline="true">
         <el-form-item label="菜单名称" prop="name">
             <el-input v-model="getMenuSelect.menuName"  placeholder="请输入菜单名称" />
         </el-form-item>
@@ -8,10 +8,13 @@
             <el-button @click="getMenuSelect.menuName='';handleLoad();ElMessage.success('重置成功')">重置</el-button>
         </el-form-item>
     </el-form>
-    <div  style="margin-bottom: 10px;">
-        <BtnAdd @handleAdd="handleAdd"></BtnAdd>
-    </div>  
+
     <TableView v-model:tableOption="tableConfig" @handelPagination="handelPagination"  >
+        <template #header>
+            <div  style="margin-bottom: 10px;">
+                <BtnAdd @handleAdd="handleAdd"></BtnAdd>
+            </div> 
+        </template>
         <template #menuType="{row}">
             <el-tag :key="row.IsStatus" :type="row.MenuType==0?'warning':row.MenuType==1?'success':'primary'" size="small"   >
                 {{ row.MenuType==0?'目录':row.MenuType==1?"菜单":"按钮" }}

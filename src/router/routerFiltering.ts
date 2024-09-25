@@ -1,7 +1,7 @@
 import { tagList } from "@/Layout/containerView/TagView/tagView";
 import router from ".";
 import store from "@/store";
-import { loginUserMenuDto } from "@/Services/UserService/model";
+import { loginUserMenuOutPut } from "@/Services/UserService/model";
 
 const routesFilters=()=>{
     var tagList=store.getters["home/getTagViewList"] as tagList[];
@@ -17,14 +17,15 @@ const routesFilters=()=>{
     return returnTagList;
 }
 
-const LoopRouting=(menuList:loginUserMenuDto[])=>{
-    var menuLoop=[] as loginUserMenuDto[];
+const LoopRouting=(menuList:loginUserMenuOutPut[])=>{
+    var menuLoop=[] as loginUserMenuOutPut[];
     menuList.map((item)=>{
-        menuLoop.push(item);
         if(item.children.length>0){
             LoopRouting(item.children).map((item)=>{
                 menuLoop.push(item);
             })
+        }else{
+            menuLoop.push(item);
         }
     })
     return menuLoop;

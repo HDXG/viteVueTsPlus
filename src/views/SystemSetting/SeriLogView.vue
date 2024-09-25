@@ -10,13 +10,34 @@
         </template>
     </TableView>
     <el-drawer v-model="drawer" title="查看Action内容"  size="50%">
-        <vue-json-pretty :deep="3" selectableType="single" :showSelectController="true" :highlightMouseoverNode="true"
-            :data="serilogModel.ResponseJson" :showLength="true"  > </vue-json-pretty>
+        <el-form :model="serilogModel" label-width="auto" >
+            <el-form-item label="请求地址">
+                <el-input  :readonly="true" v-model="serilogModel.Url" />
+            </el-form-item>
+            <el-form-item label="请求方式">
+                <el-input  :readonly="true" v-model="serilogModel.HttpMethod" />
+            </el-form-item>
+            <el-form-item label="状态码">
+                <el-tag :key="serilogModel.HttpStatusCode" :type="serilogModel.HttpStatusCode==200 ?'success':
+                serilogModel.HttpStatusCode==500?'danger':'warning'">{{ serilogModel.HttpStatusCode}}</el-tag>
+            </el-form-item>
+            <el-form-item label="请求时间">
+                <el-input :readonly="true" v-model:model-value="serilogModel.TimeStamp"></el-input>
+            </el-form-item>
+            <el-form-item label="时长">
+                <el-input :readonly="true" v-model:model-value="serilogModel.TotalMilliseconds"></el-input>
+            </el-form-item>
+            <el-form-item label="请求参数">
+                <VueJsonPrettyView v-model:json-data="serilogModel.RequestJson"></VueJsonPrettyView>
+            </el-form-item>
+            <el-form-item label="返回内容">
+                <VueJsonPrettyView v-model:json-data="serilogModel.ResponseJson"></VueJsonPrettyView>
+            </el-form-item>
+        </el-form>
+        
     </el-drawer>
 </template>
 <script setup lang="ts">
-import VueJsonPretty from 'vue-json-pretty';
-import 'vue-json-pretty/lib/styles.css';
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
 import {SerilogService} from  '@/Services/public-Index'
 import { SerilogDto, SerilogInPut } from '@/Services/Serilog/model';
@@ -27,9 +48,9 @@ const serilogModel=ref<SerilogDto>({
     TimeStamp:'',
     Url:'',
     HttpMethod:"",
-    RequestJson:"",
+    RequestJson:"[]",
     HttpStatusCode:0,
-    ResponseJson:"",
+    ResponseJson:"[]",
     ExceptionMessage:"",
     TotalMilliseconds:""
 });

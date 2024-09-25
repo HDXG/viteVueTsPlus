@@ -1,6 +1,6 @@
 
 import { PostService } from "../apiExtend"
-import { GetUserListDto, GetUserOutPut, getUserPageListDto, InsertUserOutPut, loginUserDto, loginUserMenuDto, loginUserRequest } from "./model"
+import { GetUserListDto, GetUserOutPut, getUserPageListDto, InsertUserOutPut, loginUserDto, loginUserMenuOutPut, loginUserRequest } from "./model"
 import {getDto, getPageListDto} from '../index.d'
 enum apiType{
     list='Users/GetPagedResult',
@@ -29,6 +29,6 @@ export default class userService {
         return PostService<loginUserRequest>(apiType.getLoginUser,data);
     }
     getByUserIdMenuList(data:any){
-        return PostService<loginUserMenuDto[]>(apiType.getByUserIdMenuList,data);
+        return PostService<loginUserMenuOutPut[]>(apiType.getByUserIdMenuList,data);
     }
 }

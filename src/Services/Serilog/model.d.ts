@@ -12,9 +12,9 @@ export interface SerilogDto{
     TimeStamp:string,
     Url?:string,
     HttpMethod?:string,
-    RequestJson?:string,
+    RequestJson:string,
     HttpStatusCode?:number,
-    ResponseJson?:string,
+    ResponseJson:string,
     ExceptionMessage?:string,
     TotalMilliseconds?:string
 }

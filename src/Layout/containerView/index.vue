@@ -12,7 +12,7 @@
         </el-header>
         <el-main>
             <tagView />
-            <el-scrollbar style="background-color: #FFF;padding: 10px;">
+            <el-scrollbar style="background-color: #f5f8fd;padding: 10px;">
                 <router-view/>
             </el-scrollbar>
         </el-main>

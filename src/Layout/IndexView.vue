@@ -7,37 +7,28 @@
 <script  setup  lang="ts">
 import containerView from '@/Layout/containerView/index.vue'
 import menuAsideView from './LeftMenu/menuAsideView.vue';
-import { loginUserMenuDto } from '@/Services/UserService/model';
-import{userService} from '@/Services/public-Index'
+import { loginUserMenuOutPut } from '@/Services/UserService/model';
 const store=useStore();
-const menuData=ref<loginUserMenuDto[]>([]);
+const menuData=ref<loginUserMenuOutPut[]>(store.state.home.menuList);
 const isCollapse=ref(false);
 const iconXue=ref('Fold');
-const userApi=new userService();
 function toggle(){
     isCollapse.value=!isCollapse.value;
     iconXue.value=isCollapse.value?'Expand':'Fold';
 }
-watch(menuData,(val)=>{
+watch(()=>store.state.home.menuList,(val)=>{
   if(val.length==0){
     handleRefreshMenu();
   }
-})
-watch(()=>store.getters['home/getMenuList'],(val)=>{
-  if(val.length==0){
-    handleRefreshMenu();
-  }
+  else
+    menuData.value=val;
 })
 function handleRefreshMenu(){
-  let Id=store.getters["home/getUserInfo"].Id;
-    userApi.getByUserIdMenuList({Id}).then(res=>{
-      store.commit('home/savaUserMenuList',res);
-      menuData.value=res;
-    });
+  store.dispatch('home/getUserMenuList');
 }
-  onMounted(()=>{
-    menuData.value=store.getters["home/getMenuList"];
-  });
+onMounted(()=>{
+  handleRefreshMenu();
+});
 </script>
 
 <style lang="scss" scoped>

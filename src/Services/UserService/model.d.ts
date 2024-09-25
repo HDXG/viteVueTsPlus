@@ -41,11 +41,13 @@ export interface loginUserDto{
 }
 
 
-interface loginUserMenuDto{
+interface loginUserMenuOutPut{
     title:string,
-    path:string,
+    RouteName:string,
+    ComponentPath:string,
+    MenuUrl:string,
     icon:string,
-    children:loginUserMenuDto[]
+    children:loginUserMenuOutPut[]
 }
 
 interface GetLogInUserInfoDto{
@@ -58,7 +60,6 @@ interface GetLogInUserInfoDto{
  * 
  */
 export interface loginUserRequest{
-    menuList:loginUserMenuDto[],
     UserInfo:GetLogInUserInfoDto,
     rolePermission:string,
     token:string,

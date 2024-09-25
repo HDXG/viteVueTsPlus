@@ -1,19 +1,22 @@
 <template>
-    <el-table :data="tableOption.Items"  :border="tableOption.border"  table-layout="fixed"  :row-key="tableOption.rowKey">   
-        <el-table-column v-for="item in tableOption.tableColumn" 
-            :prop="item.prop" :label="item.label"  
-            :width="item.width" :align="item.align?item.align:'center'" :type="item?.type">
-            <template v-if="item.date" #default="{row}">
-                {{dateFormat(row,item.prop)}}
-            </template>
-            <template v-if="item.slotName" #default="{ row }">
-                <slot :name="item.slotName" v-if="item.slotName" :row="row"></slot>
-            </template>
-            <template v-if="item.prop=='序号'" #default="{$index}">
-                <span>{{ $index + tableOption.pageSize * (tableOption.pageIndex - 1) + 1 }}</span>
-            </template>
-        </el-table-column>
-    </el-table>
+    <div style="padding: 15px;background-color: #fff;border: 1px solid #ebeef5; margin-top: 10px;">
+        <header>  <slot name="header"></slot>  </header> 
+        <el-table :data="tableOption.Items"  :border="tableOption.border"  table-layout="fixed"  :row-key="tableOption.rowKey">   
+            <el-table-column v-for="item in tableOption.tableColumn" 
+                :prop="item.prop" :label="item.label"  
+                :width="item.width" :align="item.align?item.align:'center'" :type="item?.type">
+                <template v-if="item.date" #default="{row}">
+                    {{dateFormat(row,item.prop)}}
+                </template>
+                <template v-if="item.slotName" #default="{ row }">
+                    <slot :name="item.slotName" v-if="item.slotName" :row="row"></slot>
+                </template>
+                <template v-if="item.prop=='序号'" #default="{$index}">
+                    <span>{{ $index + tableOption.pageSize * (tableOption.pageIndex - 1) + 1 }}</span>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
     <el-pagination  style="margin-top: 20px;margin-right: 10px; float: right;"
             v-model:current-page="tableOption.pageIndex"
             v-model:page-size="tableOption.pageSize"
