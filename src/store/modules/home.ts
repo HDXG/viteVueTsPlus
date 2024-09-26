@@ -54,7 +54,7 @@ export default  {
                 routerAddList.map((item)=>{
                     if(!router.hasRoute(item.RouteName)){
                         router.addRoute('/',{ name:item.RouteName, path:item.MenuUrl, 
-                            component:()=>import(`../../views/${item.ComponentPath}`),
+                            component:()=>import(/* @vite-ignore */ `../../views/${item.ComponentPath}`),
                         meta:{title:item.title}})
                     }
                 });

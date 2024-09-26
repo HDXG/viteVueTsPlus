@@ -34,6 +34,7 @@ function  PostService<res>(url:string,data:any=null){
                 if(error.response!=undefined){
                     //如果是500 返回一下错误信息内容
                     if(error.response.status==500){
+                        console.log(error.response.data.msg);
                         ElMessage.error(error.response.data.msg);
                     }
                 }
