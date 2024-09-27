@@ -8,7 +8,7 @@
             </template> -->
             <template #create="{row}">{{ dateTimeFormat(row.create_date) }}</template>
             <template #modify="{row}">{{ dateTimeFormat(row.modify_date) }}</template>
-    </TableView>
+        </TableView>
     </div>
 </template>
 <script setup lang="ts">
@@ -22,6 +22,7 @@ const getTableSelect=reactive<PagingBase>({
     PageSize:10,
 })
 const apiCode=new CodeGenerationService();
+
 const tableConfig=reactive<tableConfigs>({
     pageIndex:1,
     pageSize:10,
@@ -30,36 +31,45 @@ const tableConfig=reactive<tableConfigs>({
     border:true,
     rowKey:'Id',
     tableColumn:[
-            {
-                label:'表名称',
-                prop:'tableName',
-                width:200,
+    {
+                type:'selection',
+                width:70
             },
             {
-                label:'描述',
-                prop:'describe',
+                label:'序号',
+                prop:'序号',
+                width:100,
             },
-            {
-                label:'对象模式',
-                prop:'schemasName',
-                width:90
-            },
-            {
-                label:'创建时间',
-                prop:'create_date',
-                slotName:'create',
-                width:200
-            },
-            {
-                label:'修改时间',
-                prop:'modify_date',
-                slotName:'modify',
-                width:200
-            },
-            {
-                label:'操作',
-                width:150,
-            }
+        {
+            label:'表名称',
+            prop:'tableName',
+            width:200,
+        },
+        {
+            label:'描述',
+            prop:'describe',
+        },
+        {
+            label:'对象模式',
+            prop:'schemasName',
+            width:90
+        },
+        {
+            label:'创建时间',
+            prop:'create_date',
+            slotName:'create',
+            width:200
+        },
+        {
+            label:'修改时间',
+            prop:'modify_date',
+            slotName:'modify',
+            width:200
+        },
+        {
+            label:'操作',
+            width:150,
+        }
     ] as tableOptions[]
 });
 watch(tableConfig,(val)=>{
@@ -68,7 +78,6 @@ watch(tableConfig,(val)=>{
 })
 function LoadHandle(){
     apiCode.getTableListHandle(getTableSelect).then(res=>{
-        console.log(res);
         tableConfig.Items=res.Item;
         tableConfig.totalCount=res.TotalCount;
     })

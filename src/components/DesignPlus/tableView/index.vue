@@ -3,8 +3,8 @@
         <header>  <slot name="header"></slot>  </header> 
         <el-table :data="tableOption.Items"  :border="tableOption.border"  table-layout="fixed"  :row-key="tableOption.rowKey">   
             <el-table-column v-for="item in tableOption.tableColumn" 
-                :prop="item.prop" :label="item.label"  
-                :width="item.width" :align="item.align?item.align:'center'" :type="item?.type">
+                :prop="item.prop" :label="item.label"  :width="item.width"
+                :align="item.align?item.align:'center'" :type="item?.type">
                 <template v-if="item.date" #default="{row}">
                     {{dateFormat(row,item.prop)}}
                 </template>
