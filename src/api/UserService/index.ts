@@ -1,7 +1,7 @@
 
 import { PostService } from "../apiExtend"
 import { GetUserListDto, GetUserOutPut, getUserPageListDto, InsertUserOutPut, loginUserDto, loginUserMenuOutPut, loginUserRequest } from "./model"
-import {getDto, getPageListDto} from '../index.d'
+import {getDto, getPageListDto} from '..'
 enum apiType{
     list='Users/GetPagedResult',
     insert='Users/InsertUser',

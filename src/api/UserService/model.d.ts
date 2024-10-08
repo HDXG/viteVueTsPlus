@@ -1,5 +1,5 @@
-import {HasCreateDeleteEntityDto, PagingBase} from '@/Services'
-import{RoleListDto} from'@/Services/RoleService/model'
+import {HasCreateDeleteEntityDto, PagingBase} from '@/api'
+import{RoleListDto} from'@/api/RoleService/model'
 
 export interface getUserPageListDto extends PagingBase{
     userName:string,

@@ -1,4 +1,4 @@
-import { getDto, HasCreateDeleteEntityDto, PagingBase } from "@/Services";
+import { getDto, HasCreateDeleteEntityDto, PagingBase } from "@/api";
 import { treeDto } from "../model";
 
 

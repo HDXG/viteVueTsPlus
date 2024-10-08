@@ -25,9 +25,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import {loginUserDto, loginUserRequest} from '@/Services/UserService/model';
+import {loginUserDto, loginUserRequest} from '@/api/UserService/model';
 import { ElMessage,FormInstance } from 'element-plus'
-import {userService} from '@/Services/public-Index';
+import {userService} from '@/api/public-Index';
 const userApi=new userService();
 const user=reactive<loginUserDto>({
         AccountNumber:'admin',

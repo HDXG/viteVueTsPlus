@@ -7,7 +7,7 @@
 <script  setup  lang="ts">
 import containerView from '@/Layout/containerView/index.vue'
 import menuAsideView from './LeftMenu/menuAsideView.vue';
-import { loginUserMenuOutPut } from '@/Services/UserService/model';
+import { loginUserMenuOutPut } from '@/api/UserService/model';
 const store=useStore();
 const menuData=ref<loginUserMenuOutPut[]>(store.state.home.menuList);
 const isCollapse=ref(false);

@@ -1,4 +1,4 @@
-import api from '@/util/api/index';
+import api from './Request';
 import { ElMessage } from 'element-plus';
 import {response} from '.';
 

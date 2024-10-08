@@ -87,9 +87,9 @@
 <script setup lang="ts">
 import {ElMessage, FormInstance} from 'element-plus'
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
-import { PagedResultInPut, SysMenuPermissionsDto } from '@/Services/MenuPermissService/model';
-import {menuService} from '@/Services/public-Index';
-import { treeSelectDto } from '@/Services/model';
+import { PagedResultInPut, SysMenuPermissionsDto } from '@/api/MenuPermissService/model';
+import {menuService} from '@/api/public-Index';
+import { treeSelectDto } from '@/api/model';
 import { createGuid } from '@/util/guid';
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
 import handleRefreshMenu from '@/util/Public-index'

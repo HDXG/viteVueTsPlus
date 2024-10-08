@@ -2,7 +2,7 @@
 import { PostService } from "../apiExtend";
 import { GetPageRoleDto, InsertRoleMenuInPut, RoleListDto, SysRoleDto, TreePermissionsDto } from "./model";
 
-import {getDto, getPageListDto} from '../index.d'
+import {getDto, getPageListDto} from '..'
 
 enum apiType{
     GetRoleList='Role/PagedResult',

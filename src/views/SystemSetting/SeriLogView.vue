@@ -39,8 +39,8 @@
 </template>
 <script setup lang="ts">
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
-import {SerilogService} from  '@/Services/public-Index'
-import { SerilogDto, SerilogInPut } from '@/Services/Serilog/model';
+import {SerilogService} from  '@/api/public-Index'
+import { SerilogDto, SerilogInPut } from '@/api/Serilog/model';
 const drawer=ref<boolean>(false);
 const apiSerilog=new SerilogService();
 const serilogModel=ref<SerilogDto>({

@@ -69,12 +69,12 @@
 <script setup lang="ts">
 import { ElMessage, FormInstance } from 'element-plus';
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
-import { getUserPageListDto, InsertUserOutPut, SysUserDto } from '@/Services/UserService/model';
-import {userService,RoleService} from '@/Services/public-Index';
+import { getUserPageListDto, InsertUserOutPut, SysUserDto } from '@/api/UserService/model';
+import {userService,RoleService} from '@/api/public-Index';
 import { createGuid } from '@/util/guid';
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
-import { getDto } from '@/Services';
-import { RoleListDto } from '@/Services/RoleService/model'
+import { getDto } from '@/api';
+import { RoleListDto } from '@/api/RoleService/model'
 const apiUser=new userService();
 const apiRole=new RoleService();
 const dialogVisible=ref<boolean>(false);

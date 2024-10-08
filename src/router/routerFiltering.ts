@@ -1,7 +1,7 @@
 import { tagList } from "@/Layout/containerView/TagView/tagView";
 import router from ".";
 import store from "@/store";
-import { loginUserMenuOutPut } from "@/Services/UserService/model";
+import { loginUserMenuOutPut } from "@/api/UserService/model";
 
 const routesFilters=()=>{
     var tagList=store.getters["home/getTagViewList"] as tagList[];

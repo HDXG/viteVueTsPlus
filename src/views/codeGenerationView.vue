@@ -13,8 +13,8 @@
 </template>
 <script setup lang="ts">
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView'
-import { PagingBase } from '@/Services';
-import {CodeGenerationService} from '@/Services/public-Index'
+import { PagingBase } from '@/api';
+import {CodeGenerationService} from '@/api/public-Index'
 import { timeFormat } from '@/util/TimeDays';
 
 const getTableSelect=reactive<PagingBase>({

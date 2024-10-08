@@ -87,12 +87,12 @@
 import {  Search } from '@element-plus/icons-vue'
 import { confirmDelete,confirm } from '@/components/DesignPlus/ElConfirm';
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
-import { getDto } from '@/Services';
-import RoleService from '@/Services/RoleService';
-import { GetPageRoleDto, InsertRoleMenuInPut, SysRoleDto } from '@/Services/RoleService/model';
+import { getDto } from '@/api';
+import RoleService from '@/api/RoleService';
+import { GetPageRoleDto, InsertRoleMenuInPut, SysRoleDto } from '@/api/RoleService/model';
 import { createGuid } from '@/util/guid';
 import { ElMessage, FormInstance,ElTree } from 'element-plus';
-import { treeDto } from '@/Services/model';
+import { treeDto } from '@/api/model';
 import handleRefreshMenu from '@/util/Public-index'
 const dialogVisible=ref<boolean>(false);
 const drawerVisible=ref<boolean>(false);
