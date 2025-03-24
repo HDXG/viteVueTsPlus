@@ -34,7 +34,7 @@ router.beforeEach((to, _from, next) => {
         }
         //判断如果当前路由中没有跳转的路由则直接返回首页内容
         if (router.hasRoute(to.name as string))
-            next()
+            return next()
         else{
             next('/')
     }

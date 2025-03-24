@@ -17,7 +17,7 @@ export default defineConfig({
   plugins: [vue(),
     AutoImport({
 			//安装两行后你会发现在组件中不用再导入ref，reactive等
-			imports: ['vue', 'vue-router','vuex'],
+			imports: ['vue', 'vue-router'],
             //存放的位置
 			dts: "src/auto-import.d.ts",
 		}),

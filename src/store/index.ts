@@ -1,14 +1,11 @@
-import {   createStore } from 'vuex';
-import home from './modules/home'
-const store=createStore({
-    state:{
-    },
-    mutations:{},
-    modules:{
-        home
-    }
-
-});
-
-
-export default store;
+import { createPinia } from 'pinia'
+import { createPersistedState } from 'pinia-plugin-persistedstate'
+import { UseHomeStore } from './modules/homeStore'
+const IndexPinia = createPinia()
+IndexPinia.use(
+    createPersistedState({
+        storage: window.localStorage
+    })
+)
+export { UseHomeStore }
+export default IndexPinia;

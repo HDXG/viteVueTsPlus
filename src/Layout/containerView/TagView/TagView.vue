@@ -14,11 +14,13 @@
 <script setup lang="ts">
 
 import { tagList } from './tagView';
-import routesFilters from '@/router/routerFiltering'
+import routesFilters from '@/router/routerFiltering';
+import { UseHomeStore } from '@/store';
     const dynamicTags=ref<Array<tagList>>([]);
     const selectIndex=ref<number>(0);
     const router=useRouter();
-    const store=useStore();
+
+const homeStore = UseHomeStore();
     //删除TagView
     const handleClose=((index)=>{
         if(!dynamicTags.value[index].checked){
@@ -51,7 +53,7 @@ import routesFilters from '@/router/routerFiltering'
             item.checked=false;
         });
         dynamicTags.value[index].checked=true;
-        store.commit('home/savaTagViewList', dynamicTags.value);
+        homeStore.savaTagViewList(dynamicTags.value as tagList[]);
         router.push(dynamicTags.value[index].path);
     }
     function dynamicTagsChecked(index){

@@ -1,8 +1,9 @@
-import store from "@/store"
+import { UseHomeStore } from "@/store";
 
-//删除vuex内容，进行刷新菜单项目
+
 const  handleRefreshMenu=()=>{
-    store.commit('home/savaUserMenuList',[]);
+    const homeStore=UseHomeStore();
+    homeStore.savaUserMenuList([]);
 }
 
 export default {handleRefreshMenu}

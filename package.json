@@ -1,42 +1,43 @@
 {
-  "name": "vitevuetsplus",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@element-plus/icons-vue": "^2.3.1",
-    "@vueuse/core": "^11.0.3",
-    "axios": "^1.7.5",
-    "crypto-js": "^4.2.0",
-    "dayjs": "^1.11.13",
-    "element-plus": "^2.8.1",
-    "less": "^4.2.0",
-    "less-loader": "^12.2.0",
-    "nprogress": "^0.2.0",
-    "sass": "^1.77.8",
-    "screenfull": "^6.0.2",
-    "unplugin-auto-import": "^0.18.2",
-    "unplugin-vue-components": "^0.27.4",
-    "vue": "^3.4.37",
-    "vue-clipboard3": "^2.0.0",
-    "vue-json-pretty": "^2.4.0",
-    "vue-router": "^4.4.3",
-    "vuex": "^4.1.0"
-  },
-  "devDependencies": {
-    "@iconify-json/ep": "^1.1.16",
-    "@types/node": "^22.5.0",
-    "@vitejs/plugin-vue": "^5.1.2",
-    "fast-glob": "^3.3.2",
-    "typescript": "^5.5.3",
-    "unplugin-icons": "^0.19.2",
-    "vite": "^5.4.1",
-    "vite-plugin-svg-icons": "^2.0.1",
-    "vue-tsc": "^2.0.29"
-  }
+    "name": "vitevuetsplus",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vue-tsc -b && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@element-plus/icons-vue": "^2.3.1",
+        "@vueuse/core": "^11.0.3",
+        "axios": "^1.7.5",
+        "crypto-js": "^4.2.0",
+        "dayjs": "^1.11.13",
+        "element-plus": "^2.9.7",
+        "less": "^4.2.0",
+        "less-loader": "^12.2.0",
+        "nprogress": "^0.2.0",
+        "pinia": "^3.0.1",
+        "pinia-plugin-persistedstate": "^4.2.0",
+        "sass": "^1.77.8",
+        "screenfull": "^6.0.2",
+        "unplugin-auto-import": "^0.18.2",
+        "unplugin-vue-components": "^0.27.4",
+        "vue": "^3.4.37",
+        "vue-clipboard3": "^2.0.0",
+        "vue-json-pretty": "^2.4.0",
+        "vue-router": "^4.4.3"
+    },
+    "devDependencies": {
+        "@iconify-json/ep": "^1.1.16",
+        "@types/node": "^22.5.0",
+        "@vitejs/plugin-vue": "^5.1.2",
+        "fast-glob": "^3.3.2",
+        "typescript": "^5.8.2",
+        "unplugin-icons": "^0.19.2",
+        "vite": "^5.4.1",
+        "vite-plugin-svg-icons": "^2.0.1",
+        "vue-tsc": "^2.0.29"
+    }
 }
