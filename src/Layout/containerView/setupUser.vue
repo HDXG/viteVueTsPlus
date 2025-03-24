@@ -15,11 +15,14 @@
 <script lang="ts" setup>
 import { ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
+import { UseHomeStore } from '@/store';
+import storage from '@/util/localStorageExpand/storage';
+import { keyEnum } from '@/util/localStorageExpand/keyEnum';
 
 const userName=ref<string>('');
 
 var router=useRouter();
-var store=useStore();
+var homeStore = UseHomeStore();
 
 function handelCommand(value){
   //退出 清空localSotre
@@ -39,6 +42,7 @@ function handelCommand(value){
 }
 
 onMounted(()=>{
-    userName.value=store.getters["home/getUserInfo"].UserName
+    console.log(homeStore.UserInfo);
+    userName.value = homeStore.UserInfo.UserName;
 })
 </script>

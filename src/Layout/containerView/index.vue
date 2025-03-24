@@ -7,7 +7,7 @@
             </div>
             <div class="user-info">
                 <div class="navItem" style="width: 40px;"><screenfullView /></div>
-                <div class="navItem"style="width:90px;"><setupUser/> </div>
+                <div class="navItem" style="width:90px;"><setupUser/> </div>
             </div>
         </el-header>
         <el-main>

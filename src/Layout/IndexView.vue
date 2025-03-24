@@ -8,15 +8,17 @@
 import containerView from '@/Layout/containerView/index.vue'
 import menuAsideView from './LeftMenu/menuAsideView.vue';
 import { loginUserMenuOutPut } from '@/api/UserService/model';
-const store=useStore();
-const menuData=ref<loginUserMenuOutPut[]>(store.state.home.menuList);
+import { UseHomeStore } from '@/store';
+const homeStore=UseHomeStore();
+const menuData = ref<loginUserMenuOutPut[]>(homeStore.menuList);
 const isCollapse=ref(false);
 const iconXue=ref('Fold');
 function toggle(){
     isCollapse.value=!isCollapse.value;
     iconXue.value=isCollapse.value?'Expand':'Fold';
 }
-watch(()=>store.state.home.menuList,(val)=>{
+watch(() => homeStore.menuList,(val)=>{
+  console.log(val);
   if(val.length==0){
     handleRefreshMenu();
   }
@@ -24,7 +26,7 @@ watch(()=>store.state.home.menuList,(val)=>{
     menuData.value=val;
 })
 function handleRefreshMenu(){
-  store.dispatch('home/getUserMenuList');
+  homeStore.getUserMenuList();
 }
 onMounted(()=>{
   handleRefreshMenu();

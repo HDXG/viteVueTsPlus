@@ -1,10 +1,13 @@
 import { tagList } from "@/Layout/containerView/TagView/tagView";
 import router from ".";
-import store from "@/store";
+
 import { loginUserMenuOutPut } from "@/api/UserService/model";
+import {UseHomeStore} from "../store/modules/homeStore";
+
 
 const routesFilters=()=>{
-    var tagList=store.getters["home/getTagViewList"] as tagList[];
+    const homeStore = UseHomeStore();
+    var tagList = homeStore.tagViewList;
     var routerList=router.getRoutes();
     var returnTagList=[] as tagList[];
     tagList.map((item)=>{

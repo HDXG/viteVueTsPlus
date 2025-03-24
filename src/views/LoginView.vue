@@ -1,12 +1,12 @@
 <template>
     <div class="login-wrapper">
-        <dir class="modal">
+        <div class="modal">
             <el-form ref="ruleFormRef" :model="user"  status-icon :rules="rule">
                 <div class="title">Design </div>
                 <el-form-item prop="AccountNumber">
                     <el-input  type="text" clearable  v-model="user.AccountNumber">
                         <template #prefix>
-                            <SvgIcon icon-class="UserFilled"</SvgIcon>
+                            <SvgIcon icon-class="UserFilled"></SvgIcon>
                         </template>
                     </el-input>
                 </el-form-item>
@@ -21,20 +21,21 @@
                     <ElButton class="btn-login" type="primary" @click="submitForm(ruleFormRef)">登录</ElButton>
                 </el-form-item>
             </el-form>
-        </dir>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
 import {loginUserDto, loginUserRequest} from '@/api/UserService/model';
 import { ElMessage,FormInstance } from 'element-plus'
 import {userService} from '@/api/public-Index';
+import { UseHomeStore } from '@/store/index';
 const userApi=new userService();
 const user=reactive<loginUserDto>({
         AccountNumber:'admin',
         PassWord:'admin111',
     });
 var router=useRouter();
-var store=useStore();
+const homeStore = UseHomeStore();
 const ruleFormRef = ref<FormInstance>();
 const rule=ref({
     AccountNumber:[
@@ -50,16 +51,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid) => {
         if (valid) {
-            userApi.handleUserLogin(user).then((res:loginUserRequest)=>{
-                ElMessage.success('登录成功');
-                res.token='1';
-                store.commit('home/savaUserInfo',res);
-                router.push('/');
-            });
+            // userApi.handleUserLogin(user).then((res:loginUserRequest)=>{
+            //     ElMessage.success('登录成功');
+            //     res.token='1';
+            //     //store.commit('home/savaUserInfo',res);
+            //     router.push('/');
+            // });
+            router.push('/');
         }else
             ElMessage.error('请填写完整');
     })
 }
+
+onMounted(() => {
+    homeStore.setUserToken('123');
+});
 
 </script>
 <style lang="scss" scoped>
