@@ -1,31 +1,35 @@
-import { getDto } from "..";
+import { QuerySingleRequest } from "..";
 import { PostService } from "../apiExtend";
 import { treeSelectDto } from "../model";
-import { PagedResultInPut, PopedTableOutPut, SysMenuPermissionsDto } from "./model";
+import { GetSystemMenuListResponse, GetSystemMenuListInputDto, SystemMenuDto } from "./model";
 
 enum apiType{
-    Insert='PermissionMenu/InsertMenu',
-    Update='PermissionMenu/UpdateMenu',
-    GetMenu='PermissionMenu/GetMenu',
-    TreeSelect='PermissionMenu/TreeSelect',
-    PagedResult='PermissionMenu/PagedResult',
-    DeleteMenu='PermissionMenu/DeleteMenu',
+    GetSystemMenuList = 'SystemManagement/SystemMenu/GetSystemMenuList',
+    Insert ='SystemManagement/SystemMenu/InsertMenu',
+    Update ='SystemManagement/SystemMenu/UpdateMenu',
+    GetMenu ='SystemManagement/SystemMenu/GetMenu',
+    TreeSelect ='SystemManagement/SystemMenu/TreeSelect',
+    DeleteMenu ='SystemManagement/SystemMenu/DeleteMenu',
 }
 
 export default class menuService{
-    ModifyAdd(data:SysMenuPermissionsDto,type:number){
-        return PostService<boolean>(type==1?apiType.Insert:apiType.Update,data);
+    /***
+     * 获取菜单列表分页
+     */
+    GetSystemMenuList(data: GetSystemMenuListInputDto) {
+        return PostService<GetSystemMenuListResponse>(apiType.GetSystemMenuList, data);
     }
-    handleGet(data:getDto){
-        return PostService<SysMenuPermissionsDto>(apiType.GetMenu,data);
+    
+    handleGet(data: QuerySingleRequest){
+        return PostService<SystemMenuDto>(apiType.GetMenu,data);
+    }
+    ModifyAdd(data: SystemMenuDto, type: number) {
+        return PostService<boolean>(type == 1 ? apiType.Insert : apiType.Update, data);
     }
     handleTreeSelect(){
         return PostService<treeSelectDto>(apiType.TreeSelect);
     }
-    handleLoad(data:PagedResultInPut){
-        return PostService<PopedTableOutPut>(apiType.PagedResult,data);
-    }
-    handleDelete(data:getDto){
+    handleDelete(data: QuerySingleRequest){
         return PostService<boolean>(apiType.DeleteMenu,data);
     }
 }

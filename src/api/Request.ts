@@ -3,8 +3,11 @@ import { ElMessage } from 'element-plus';
 import {startNprogress,closeNprogress} from '@/util/nprogress.ts'
 const Request=axios.create({
     timeout:10000,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+    
 });
-
 /**
  * 请求前的拦截器内容
  */

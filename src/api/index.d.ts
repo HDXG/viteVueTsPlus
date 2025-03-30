@@ -13,7 +13,6 @@ export  interface response<resData>{
 
 export interface HasCreateDeleteEntityDto{
     Id:string,
-    IsDelete?:boolean,
     CreateTime?:Date
 }
 
@@ -28,10 +27,14 @@ export interface PagingBase{
 //表格分页内容
 export interface getPageListDto<T>{
     TotalCount:number=0;
-    Item:T[]
+    Items:T[]
 }
 
-export interface getDto{
+/***
+ * 查询对象通用
+ * Id Guid
+ */
+export interface QuerySingleRequest{
     Id:string
 }
 

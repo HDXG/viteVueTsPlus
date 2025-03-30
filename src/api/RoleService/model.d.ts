@@ -1,19 +1,39 @@
-import { getDto, HasCreateDeleteEntityDto, PagingBase } from "@/api";
+import { getDto, HasCreateDeleteEntityDto, PagingBase, QuerySingleRequest } from "@/api";
 import { treeDto } from "../model";
 
 
-export interface SysRoleDto extends HasCreateDeleteEntityDto{
+/***
+ * 列表分页入参参数
+ */
+export interface GetSystemRolePagedListRequest extends PagingBase {
+    RoleName: string
+}
+
+ 
+/***
+ * 返回列表分页
+ */
+export interface GetSystemRolePagedListResponse extends HasCreateDeleteEntityDto{
     RoleName:string,
-    Note:string,
+    Describe:string,
     IsDefault:boolean,
     IsStatus:boolean,
-    Order:number,
+    OrderIndex:number,
 }
 
 
-export interface GetPageRoleDto extends PagingBase{
-    RoleName:string
+/***
+ * 角色Dto
+ */
+export interface SystemRoleDto extends HasCreateDeleteEntityDto {
+    RoleName: string,
+    Describe: string,
+    IsDefault: boolean,
+    IsStatus: boolean,
+    OrderIndex: number,
 }
+
+
 
 export interface RoleListDto{
     Id:string,
@@ -26,6 +46,6 @@ export interface TreePermissionsDto{
 }
 
 
-export interface InsertRoleMenuInPut extends getDto {
+export interface InsertRoleMenuInPut extends QuerySingleRequest {
     menuList:string[]
 }

@@ -1,24 +1,29 @@
 import { HasCreateDeleteEntityDto,PagingBase } from "..";
 
-export interface SysMenuPermissionsDto extends HasCreateDeleteEntityDto {
+export interface SystemMenuDto{
+    Id: string,
     MenuName:string,
-    RouteName?:string,
-    MenuUrl?:string,
-    ComponentPath?:string,
-    Fatherid:string,
+    MenuPath?:string,
+    ParentId?:string,
     Icon:string,
-    MenuType:number,
+    ComponentPath:string,
+    RouteName:string,
+    ExternalLink:boolean,
+    Remark:string,
+    OrderIndex:number,
     IsStatus:boolean,
-    Identification?:string,
-    Order:number
+    PermissionKey?:string,
+
+
 }
 
 
-export interface PopedTableOutPut{
+export interface GetSystemMenuListResponse {
     TotalCount:number,
-    Items:SysMenuPermissionsDto[]
+    Items: SystemMenuDto[]
 }
 
-export interface PagedResultInPut extends PagingBase{
-    menuName:string,
+export interface GetSystemMenuListInputDto extends PagingBase{
+    MenuName:string,
+    MenuPath:string,
 }

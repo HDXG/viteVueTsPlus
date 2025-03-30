@@ -38,9 +38,9 @@
         <div>
             <el-form  ref="ruleFormRef"  :model="menuPopedom"   :rules="rules" label-width="auto">
                 <el-form-item label="父级菜单" prop="Fatherid">
-                    <el-tree-select  v-model="menuPopedom.Fatherid"   check-strictly  :data="menuTreeSelectData" :render-after-expand="false"/>
+                    <el-tree-select  v-model="menuPopedom.ParentId"   check-strictly  :data="menuTreeSelectData" :render-after-expand="false"/>
                 </el-form-item>
-                <el-form-item :label="menuPopedom.MenuType==0 || menuPopedom.MenuType==1?'菜单名称':'按钮名称'" prop="MenuName">
+                <!-- <el-form-item :label="menuPopedom.MenuType==0 || menuPopedom.MenuType==1?'菜单名称':'按钮名称'" prop="MenuName">
                     <el-input :readonly="AddModifyView==3" v-model="menuPopedom.MenuName" />
                 </el-form-item>
                 <el-form-item label="菜单类型" prop="MenuType">
@@ -52,8 +52,8 @@
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="路由名称" prop="RouteName">
                     <el-input v-model="menuPopedom.RouteName" />
-                </el-form-item>
-                <el-form-item v-if="menuPopedom.MenuType!=2" label="路由路径" prop="MenuUrl">
+                </el-form-item> -->
+                <!-- <el-form-item v-if="menuPopedom.MenuType!=2" label="路由路径" prop="MenuUrl">
                     <el-input v-model="menuPopedom.MenuUrl" />
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="组件路径" prop="ComponentPath">
@@ -61,10 +61,10 @@
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="图标选择" prop="Icon">
                     <IconSelect v-model:icon="menuPopedom.Icon"></IconSelect>
-                </el-form-item>
-                <el-form-item v-if="menuPopedom.MenuType==2" label="权限标识" prop="Identification">
+                </el-form-item> -->
+                <!-- <el-form-item v-if="menuPopedom.MenuType==2" label="权限标识" prop="Identification">
                     <el-input v-model="menuPopedom.Identification" />
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="显示状态" prop="IsStatus">
                     <el-radio-group v-model="menuPopedom.IsStatus">
                         <el-radio :value="true">启用</el-radio>
@@ -72,7 +72,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="显示顺序">
-                    <el-input-number :min="0" v-model="menuPopedom.Order"/>
+                    <el-input-number :min="0" v-model="menuPopedom.OrderIndex"/>
                 </el-form-item> 
             </el-form>
         </div>
@@ -87,10 +87,9 @@
 <script setup lang="ts">
 import {ElMessage, FormInstance} from 'element-plus'
 import { tableConfigs, tableOptions } from '@/components/DesignPlus/tableView';
-import { PagedResultInPut, SysMenuPermissionsDto } from '@/api/MenuPermissService/model';
+import { SystemMenuDto, GetSystemMenuListInputDto } from '@/api/MenuPermissService/model';
 import {menuService} from '@/api/public-Index';
 import { treeSelectDto } from '@/api/model';
-import { createGuid } from '@/util/guid';
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
 import handleRefreshMenu from '@/util/Public-index'
 
@@ -100,25 +99,26 @@ const dialogVisible=ref<boolean>(false);
 const ruleFormRef=ref<FormInstance>();
 const menuTreeSelectData=ref<treeSelectDto[] | any>([]);
 
-const getMenuSelect=reactive<PagedResultInPut>({
-    menuName:'',
+const getMenuSelect = reactive<GetSystemMenuListInputDto>({
+    MenuName:'',
+    MenuPath:'',
     PageIndex:1,
     PageSize:10,
 })
 
-const menuPopedom=ref<SysMenuPermissionsDto>({
+const menuPopedom = ref<SystemMenuDto>({
     Id:'',
-    MenuName:'',
-    RouteName:'',
-    MenuUrl:'',
-    ComponentPath:'',
-    Fatherid:'00000000-0000-0000-0000-000000000000',
-    Icon:'',
-    MenuType:0,
-    Identification:'',
-    IsDelete:true,
-    IsStatus:true,
-    Order:0,
+    MenuName: '',
+    MenuPath: '',
+    ParentId: '00000000-0000-0000-0000-000000000000',
+    Icon: '',
+    ComponentPath: '',
+    RouteName: '',
+    ExternalLink: false,
+    Remark: '',
+    OrderIndex: 0,
+    IsStatus: true,
+    PermissionKey: '',
 })
 const rules=ref({
     MenuName:[{ required: true, message: '请输入名称', trigger: 'blur' }],
@@ -206,9 +206,6 @@ const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
         return;
     ruleFormRef.validate((val)=>{
         if(val){
-            if(AddModifyView.value==1){
-                menuPopedom.value.Id=createGuid();
-            }
             apiMenu.ModifyAdd(menuPopedom.value,AddModifyView.value).then(res=>{
                 if(res){
                     ElMessage.success(AddModifyView.value==1?"新增成功":"修改成功");
@@ -284,7 +281,7 @@ const handleAdd=()=>{
 
 //加载事件
 const handleLoad=()=>{
-    apiMenu.handleLoad(getMenuSelect).then(res=>{
+    apiMenu.GetSystemMenuList(getMenuSelect).then(res=>{
         tableConfig.Items=res.Items;
         tableConfig.totalCount=res.TotalCount;
     })

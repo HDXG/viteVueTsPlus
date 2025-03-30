@@ -1,22 +1,22 @@
 <template>
-    <div  ref="iconSelectorRef">
-        <el-popover :visible="iconStrSuffix"  placement="bottom"  width="500">
+    <div ref="iconSelectorRef">
+        <el-popover :visible="iconStrSuffix" placement="bottom" width="500">
             <template #reference>
-                <el-input 
-                    v-model="iconStr" style="width:200px;" readonly
-                    placeholder="请选择图标" @click="iconStrSuffix=!iconStrSuffix">
+                <el-input v-model="iconStr" style="width:200px;" readonly placeholder="请选择图标"
+                    @click="iconStrSuffix = !iconStrSuffix">
                     <template #prepend>
                         <SvgIcon :icon-class="iconStr" size="20"></SvgIcon>
                     </template>
                     <template #suffix>
-                        <SvgIcon :icon-class="iconStrSuffix?'ArrowUp':'ArrowDown'" size="20"></SvgIcon>
+                        <SvgIcon :icon-class="iconStrSuffix ? 'ArrowUp' : 'ArrowDown'" size="20"></SvgIcon>
                     </template>
                 </el-input>
             </template>
-            <el-input v-model="searchIcon"   placeholder="搜索图标" @input="handleSearchIcon"  clearable   />
+            <el-input v-model="searchIcon" placeholder="搜索图标" @input="handleSearchIcon" clearable />
             <el-scrollbar height="300px">
                 <ul class="icon-list">
-                    <li class="icon-item"  @click="iconSelect(iconName)"  v-for="(iconName, index) in iconFilterNameList" :key="index">
+                    <li class="icon-item" @click="iconSelect(iconName)" v-for="(iconName, index) in iconFilterNameList"
+                        :key="index">
                         <el-tooltip :content="iconName" placement="bottom" effect="light">
                             <svg-icon color="var(--el-text-color-regular)" :icon-class="iconName" size="20" />
                         </el-tooltip>

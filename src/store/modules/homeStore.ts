@@ -35,8 +35,22 @@ export const UseHomeStore = defineStore('UseHomeStore', {
                 {
                     title: '角色列表',
                     RouteName: '/SystemSetting/RoleView',
-                    ComponentPath: 'SystemSetting/UserView.vue',
-                    MenuUrl: '/SystemSetting/UserView',
+                    ComponentPath: 'SystemSetting/RoleView.vue',
+                    MenuUrl: '/SystemSetting/RoleView',
+                    icon: 'Male',
+                },
+                {
+                    title: '菜单列表',
+                    RouteName: '/SystemSetting/PopedomView',
+                    ComponentPath: 'SystemSetting/PopedomView.vue',
+                    MenuUrl: '/SystemSetting/PopedomView',
+                    icon: 'Male',
+                },
+                {
+                    title: '图标选择',
+                    RouteName: '/iconSelect',
+                    ComponentPath: '/components/DesignPlus/IconSelect.vue',
+                    MenuUrl: '/iconSelect',
                     icon: 'Male',
                 }
             ] as loginUserMenuOutPut[];

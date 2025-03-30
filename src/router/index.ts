@@ -12,8 +12,6 @@ const router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 
-
-
 const encryption=new encryptionExpand();
 router.beforeEach((to, _from, next) => {
     startNprogress();
