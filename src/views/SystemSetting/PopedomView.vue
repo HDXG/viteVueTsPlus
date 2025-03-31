@@ -1,46 +1,48 @@
 <template>
-    <el-form  style="padding:10px;background-color:#fff" :inline="true">
+    <el-form style="padding:10px;background-color:#fff" :inline="true">
         <el-form-item label="菜单名称" prop="name">
-            <el-input v-model="getMenuSelect.menuName"  placeholder="请输入菜单名称" />
+            <el-input v-model="getMenuSelect.MenuName" placeholder="请输入菜单名称" />
         </el-form-item>
-        <el-form-item> 
+        <el-form-item>
             <el-button type="primary" @click="handleLoad();ElMessage.success('查询成功')">查询</el-button>
-            <el-button @click="getMenuSelect.menuName='';handleLoad();ElMessage.success('重置成功')">重置</el-button>
+            <el-button @click="getMenuSelect.MenuName ='';handleLoad();ElMessage.success('重置成功')">重置</el-button>
         </el-form-item>
     </el-form>
 
-    <TableView v-model:tableOption="tableConfig" @handelPagination="handelPagination"  >
+    <TableView v-model:tableOption="tableConfig" @handelPagination="handelPagination">
         <template #header>
-            <div  style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px;">
                 <BtnAdd @handleAdd="handleAdd"></BtnAdd>
-            </div> 
+            </div>
         </template>
         <template #menuType="{row}">
-            <el-tag :key="row.IsStatus" :type="row.MenuType==0?'warning':row.MenuType==1?'success':'primary'" size="small"   >
+            <el-tag :key="row.IsStatus" :type="row.MenuType==0?'warning':row.MenuType==1?'success':'primary'"
+                size="small">
                 {{ row.MenuType==0?'目录':row.MenuType==1?"菜单":"按钮" }}
             </el-tag>
         </template>
-        <template #Status="{row}">
-            <el-tag :key="row.IsStatus" :type="row.IsStatus?'success':'danger'" size="small"   >
+        <template #IsStatus="{row}">
+            <el-tag :key="row.IsStatus" :type="row.IsStatus ?'success':'danger'" size="small">
                 {{ row.IsStatus?'显示':'隐藏' }}
             </el-tag>
         </template>
-        <template #IconName="{row}" >
-            <SvgIcon v-if="row.MenuType!=2" :icon-class="row.Icon" size="20" ></SvgIcon>
+        <template #IconName="{row}">
+            <SvgIcon v-if="row.MenuType!=2" :icon-class="row.Icon" size="20"></SvgIcon>
         </template>
         <template #handleBtn="{row}">
-            <BtnAction v-model:rowDto="menuPopedom" @handle-delete="handleDelete(row)" @handle-edit="handleEdit(row)" 
-                @handle-view="handleView(row)" ></BtnAction>
+            <BtnAction v-model:rowDto="menuPopedom" @handle-delete="handleDelete(row)" @handle-edit="handleEdit(row)"
+                @handle-view="handleView(row)"></BtnAction>
         </template>
     </TableView>
-    
-    <el-drawer v-model="dialogVisible"  :title="AddModifyView==1?'新增菜单':AddModifyView==2?'编辑菜单':'查看菜单'" >
+
+    <el-drawer v-model="dialogVisible" :title="AddModifyView==1?'新增菜单':AddModifyView==2?'编辑菜单':'查看菜单'">
         <div>
-            <el-form  ref="ruleFormRef"  :model="menuPopedom"   :rules="rules" label-width="auto">
-                <el-form-item label="父级菜单" prop="Fatherid">
-                    <el-tree-select  v-model="menuPopedom.ParentId"   check-strictly  :data="menuTreeSelectData" :render-after-expand="false"/>
+            <el-form ref="ruleFormRef" :model="menuPopedom" :rules="rules" label-width="auto">
+                <el-form-item v-if="menuPopedom.MenuType!=0" label="父级菜单" prop="ParentId">
+                    <el-tree-select v-model="menuPopedom.ParentId" check-strictly :data="menuTreeSelectData"
+                        :render-after-expand="false" />
                 </el-form-item>
-                <!-- <el-form-item :label="menuPopedom.MenuType==0 || menuPopedom.MenuType==1?'菜单名称':'按钮名称'" prop="MenuName">
+                <el-form-item :label="menuPopedom.MenuType==0 || menuPopedom.MenuType==1?'菜单名称':'按钮名称'" prop="MenuName">
                     <el-input :readonly="AddModifyView==3" v-model="menuPopedom.MenuName" />
                 </el-form-item>
                 <el-form-item label="菜单类型" prop="MenuType">
@@ -52,28 +54,32 @@
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="路由名称" prop="RouteName">
                     <el-input v-model="menuPopedom.RouteName" />
-                </el-form-item> -->
-                <!-- <el-form-item v-if="menuPopedom.MenuType!=2" label="路由路径" prop="MenuUrl">
-                    <el-input v-model="menuPopedom.MenuUrl" />
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType!=2" label="路由路径" prop="MenuPath">
+                    <el-input v-model="menuPopedom.MenuPath" />
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="组件路径" prop="ComponentPath">
                     <el-input v-model="menuPopedom.ComponentPath" />
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="图标选择" prop="Icon">
                     <IconSelect v-model:icon="menuPopedom.Icon"></IconSelect>
-                </el-form-item> -->
-                <!-- <el-form-item v-if="menuPopedom.MenuType==2" label="权限标识" prop="Identification">
-                    <el-input v-model="menuPopedom.Identification" />
-                </el-form-item> -->
-                <el-form-item label="显示状态" prop="IsStatus">
+                </el-form-item>
+                <el-form-item v-if="menuPopedom.MenuType==2" label="权限标识" prop="PermissionKey">
+                    <el-input v-model="menuPopedom.PermissionKey" />
+                </el-form-item>
+                <el-form-item label="备注说明">
+                    <el-input :readonly="AddModifyView == 3" v-model:model-value="menuPopedom.Remark"
+                        :autosize="{ minRows: 2, maxRows: 3 }"  type="textarea" />
+                </el-form-item>
+                <el-form-item label="显示状态">
                     <el-radio-group v-model="menuPopedom.IsStatus">
                         <el-radio :value="true">启用</el-radio>
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="显示顺序">
-                    <el-input-number :min="0" v-model="menuPopedom.OrderIndex"/>
-                </el-form-item> 
+                    <el-input-number :min="0" v-model="menuPopedom.OrderIndex" />
+                </el-form-item>
             </el-form>
         </div>
         <template #footer>
@@ -105,28 +111,29 @@ const getMenuSelect = reactive<GetSystemMenuListInputDto>({
     PageIndex:1,
     PageSize:10,
 })
-
+//00000000-0000-0000-0000-000000000000
 const menuPopedom = ref<SystemMenuDto>({
     Id:'',
     MenuName: '',
     MenuPath: '',
-    ParentId: '00000000-0000-0000-0000-000000000000',
+    ParentId: '',
     Icon: '',
+    MenuType:0,
     ComponentPath: '',
     RouteName: '',
     ExternalLink: false,
     Remark: '',
     OrderIndex: 0,
-    IsStatus: true,
+    IsStatus : true,
     PermissionKey: '',
+    Childrens: [] as SystemMenuDto[]
 })
 const rules=ref({
     MenuName:[{ required: true, message: '请输入名称', trigger: 'blur' }],
     RouteName:[{required:true,message:'请输入路由名称',trigger: 'blur'}],
-    MenuUrl:[{required:true,message:'请输入路由路径',trigger: 'blur'}],
+    MenuPath:[{required:true,message:'请输入路由路径',trigger: 'blur'}],
     ComponentPath:[{required:true,message:'请输入组件路径',trigger: 'blur'}],
-    Identification:[{required:true,message:'请输入权限标识',trigger: 'blur'}],
-    IsStatus:[{required:true,message:'请输入权限标识',trigger: 'blur'}],
+    PermissionKey:[{required:true,message:'请输入权限标识',trigger: 'blur'}],
 });
 
 const tableConfig=reactive<tableConfigs>({
@@ -154,7 +161,7 @@ const tableConfig=reactive<tableConfigs>({
             },
             {
                 label:'路由路径',
-                prop:'MenuUrl',
+                prop:'MenuPath',
             },
             {
                 label:'组件路径',
@@ -167,18 +174,23 @@ const tableConfig=reactive<tableConfigs>({
             },
             {
                 label:'权限标识',
-                prop:'Identification',
+                prop:'PermissionKey',
+                width:180,
+            },
+            {
+                label:'备注说明',
+                prop:'Remark',
                 width:180,
             },
             {
                 label:'状态',
                 width:90,
-                slotName:'Status',
+                slotName:'IsStatus',
             },
             {
                 label:'排序',
                 width:100,
-                prop:'Order',
+                prop:'OrderIndex',
             },
             {
                 label:'操作',
@@ -224,7 +236,7 @@ const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
 const radioChangeType=(val:number)=>{
     if(val==2){
         menuPopedom.value.RouteName='';
-        menuPopedom.value.MenuUrl='';
+        menuPopedom.value.MenuPath='';
         menuPopedom.value.ComponentPath='';
         menuPopedom.value.Icon='';
     }
@@ -246,11 +258,11 @@ const handleEdit=(row)=>{
     handleGet(row.Id,2);
 }
 //查看
-const handleView=(row)=>{  
+const handleView=(row)=>{
     handleGet(row.Id,3);
 }
 function handleGet(Id:string,type:number){
-    apiMenu.handleGet({Id:Id}).then(res=>{
+    apiMenu.GetSystemMenu(Id).then(res=>{
         AddModifyView.value=type;
         menuPopedom.value=res;
         dialogVisible.value=true;
@@ -266,15 +278,14 @@ const handleAdd=()=>{
     menuPopedom.value.Id='',
     menuPopedom.value.MenuName='',
     menuPopedom.value.RouteName='',
-    menuPopedom.value.MenuUrl='',
+    menuPopedom.value.MenuPath='',
     menuPopedom.value.ComponentPath='',
-    menuPopedom.value.Fatherid='00000000-0000-0000-0000-000000000000',
+    menuPopedom.value.ParentId='',
     menuPopedom.value.Icon='',
     menuPopedom.value.MenuType=0,
-    menuPopedom.value.Identification='',
-    menuPopedom.value.IsDelete=true,
+    menuPopedom.value.PermissionKey ='',
     menuPopedom.value.IsStatus=true,
-    menuPopedom.value.Order=0,
+    menuPopedom.value.OrderIndex=0,
     AddModifyView.value=1;
     dialogVisible.value=true;
 }

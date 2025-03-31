@@ -18,7 +18,6 @@ function toggle(){
     iconXue.value=isCollapse.value?'Expand':'Fold';
 }
 watch(() => homeStore.menuList,(val)=>{
-  console.log(val);
   if(val.length==0){
     handleRefreshMenu();
   }

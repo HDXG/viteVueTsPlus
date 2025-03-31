@@ -5,10 +5,10 @@ import { GetSystemMenuListResponse, GetSystemMenuListInputDto, SystemMenuDto } f
 
 enum apiType{
     GetSystemMenuList = 'SystemManagement/SystemMenu/GetSystemMenuList',
-    Insert ='SystemManagement/SystemMenu/InsertMenu',
+    Insert ='SystemManagement/SystemMenu/CreateSystemMenu',
     Update ='SystemManagement/SystemMenu/UpdateMenu',
-    GetMenu ='SystemManagement/SystemMenu/GetMenu',
-    TreeSelect ='SystemManagement/SystemMenu/TreeSelect',
+    GetSystemMenu ='SystemManagement/SystemMenu/GetSystemMenu',
+    TreeSelect ='SystemManagement/SystemMenu/GetSystemMenuTreeResponse',
     DeleteMenu ='SystemManagement/SystemMenu/DeleteMenu',
 }
 
@@ -19,16 +19,23 @@ export default class menuService{
     GetSystemMenuList(data: GetSystemMenuListInputDto) {
         return PostService<GetSystemMenuListResponse>(apiType.GetSystemMenuList, data);
     }
-    
-    handleGet(data: QuerySingleRequest){
-        return PostService<SystemMenuDto>(apiType.GetMenu,data);
+    /***
+     * 获取菜单树菜单
+     */
+    handleTreeSelect() {
+        return PostService<treeSelectDto>(apiType.TreeSelect);
     }
+    /***
+     * 查询单个菜单内容
+     */
+    GetSystemMenu(data:string){
+        return PostService<SystemMenuDto>(apiType.GetSystemMenu,data);
+    }
+
     ModifyAdd(data: SystemMenuDto, type: number) {
         return PostService<boolean>(type == 1 ? apiType.Insert : apiType.Update, data);
     }
-    handleTreeSelect(){
-        return PostService<treeSelectDto>(apiType.TreeSelect);
-    }
+    
     handleDelete(data: QuerySingleRequest){
         return PostService<boolean>(apiType.DeleteMenu,data);
     }

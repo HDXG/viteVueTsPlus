@@ -4,6 +4,7 @@ export interface SystemMenuDto{
     Id: string,
     MenuName:string,
     MenuPath?:string,
+    MenuType:number,
     ParentId?:string,
     Icon:string,
     ComponentPath:string,
@@ -13,6 +14,7 @@ export interface SystemMenuDto{
     OrderIndex:number,
     IsStatus:boolean,
     PermissionKey?:string,
+    Childrens: SystemMenuDto[]
 
 
 }

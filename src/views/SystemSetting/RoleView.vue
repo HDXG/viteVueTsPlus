@@ -224,7 +224,6 @@ function handleAdd() {
 
 function handleEdit(Id:string){
     roleApi.GetSystemRole(Id).then(res => {
-        console.log(res)
         roleDto.value = res;
         AddModifyView.value = 2;
         dialogVisible.value = true;

@@ -42,7 +42,6 @@ function handelCommand(value){
 }
 
 onMounted(()=>{
-    console.log(homeStore.UserInfo);
     userName.value = homeStore.UserInfo.UserName;
 })
 </script>
