@@ -53,37 +53,37 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="路由名称" prop="RouteName">
-                    <el-input v-model="menuPopedom.RouteName" />
+                    <el-input :readonly="AddModifyView == 3" v-model="menuPopedom.RouteName" />
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="路由路径" prop="MenuPath">
-                    <el-input v-model="menuPopedom.MenuPath" />
+                    <el-input :readonly="AddModifyView==3" v-model="menuPopedom.MenuPath" />
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="组件路径" prop="ComponentPath">
-                    <el-input v-model="menuPopedom.ComponentPath" />
+                    <el-input :readonly="AddModifyView == 3" v-model="menuPopedom.ComponentPath" />
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType!=2" label="图标选择" prop="Icon">
                     <IconSelect v-model:icon="menuPopedom.Icon"></IconSelect>
                 </el-form-item>
                 <el-form-item v-if="menuPopedom.MenuType==2" label="权限标识" prop="PermissionKey">
-                    <el-input v-model="menuPopedom.PermissionKey" />
+                    <el-input :readonly="AddModifyView == 3" v-model="menuPopedom.PermissionKey" />
                 </el-form-item>
                 <el-form-item label="备注说明">
                     <el-input :readonly="AddModifyView == 3" v-model:model-value="menuPopedom.Remark"
-                        :autosize="{ minRows: 2, maxRows: 3 }"  type="textarea" />
+                        :autosize="{ minRows: 2, maxRows: 3 }" type="textarea" />
                 </el-form-item>
                 <el-form-item label="显示状态">
-                    <el-radio-group v-model="menuPopedom.IsStatus">
+                    <el-radio-group :disabled="AddModifyView == 3" v-model="menuPopedom.IsStatus">
                         <el-radio :value="true">启用</el-radio>
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="显示顺序">
-                    <el-input-number :min="0" v-model="menuPopedom.OrderIndex" />
+                    <el-input-number :readonly="AddModifyView == 3" :min="0" v-model="menuPopedom.OrderIndex" />
                 </el-form-item>
             </el-form>
         </div>
         <template #footer>
-            <div style="flex: auto">
+            <div style="flex:auto">
                 <el-button @click="dialogVisible=false">取消</el-button>
                 <el-button type="primary" @click="confirmClick(ruleFormRef)">确定</el-button>
             </div>
@@ -98,6 +98,7 @@ import {menuService} from '@/api/public-Index';
 import { treeSelectDto } from '@/api/model';
 import { confirmDelete } from '@/components/DesignPlus/ElConfirm';
 import handleRefreshMenu from '@/util/Public-index'
+import { useMessage } from '@/components/DesignPlus/EMessage';
 
 const apiMenu=new menuService();
 const AddModifyView=ref<number>(1);
@@ -199,16 +200,10 @@ const tableConfig=reactive<tableConfigs>({
             }
     ] as tableOptions[]
 });
+
 watch(tableConfig,(val)=>{
     getMenuSelect.PageIndex=val.pageIndex;
     getMenuSelect.PageSize=val.pageSize;
-})
-watch(dialogVisible,(val)=>{
-    if(val){
-        apiMenu.handleTreeSelect().then(res=>{
-            menuTreeSelectData.value=res;
-        })
-    }
 })
 
 const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
@@ -234,20 +229,28 @@ const confirmClick=(ruleFormRef:FormInstance | undefined)=>{
 
 //菜单类型按钮
 const radioChangeType=(val:number)=>{
-    if(val==2){
-        menuPopedom.value.RouteName='';
-        menuPopedom.value.MenuPath='';
-        menuPopedom.value.ComponentPath='';
-        menuPopedom.value.Icon='';
+    switch(val){
+        case 0:
+            menuPopedom.value.ParentId = '00000000-0000-0000-0000-000000000000';
+            break;
+        case 1:
+            menuPopedom.value.ParentId = "";
+            break;
+        case 2:
+            menuPopedom.value.RouteName = '';
+            menuPopedom.value.MenuPath = '';
+            menuPopedom.value.ComponentPath = '';
+            menuPopedom.value.Icon = '';
+            break;
     }
 }
 
 //删除
 const handleDelete=(row)=>{
     confirmDelete(()=>{
-        apiMenu.handleDelete({Id:row.Id}).then(res=>{
+        apiMenu.Delete(row.Id).then(res=>{
             if(res){
-                ElMessage('删除成功');
+                useMessage().success('删除成功');
                 handleLoad();
             }
         })
@@ -259,6 +262,7 @@ const handleEdit=(row)=>{
 }
 //查看
 const handleView=(row)=>{
+    
     handleGet(row.Id,3);
 }
 function handleGet(Id:string,type:number){
@@ -266,7 +270,17 @@ function handleGet(Id:string,type:number){
         AddModifyView.value=type;
         menuPopedom.value=res;
         dialogVisible.value=true;
+
+        handleTreeMenu();
+
     })
+}
+
+function handleTreeMenu(){
+    menuTreeSelectData.value = [];
+    apiMenu.handleTreeSelect().then(res => {
+        menuTreeSelectData.value = res;
+    });
 }
 
 //分页内容
@@ -288,16 +302,18 @@ const handleAdd=()=>{
     menuPopedom.value.OrderIndex=0,
     AddModifyView.value=1;
     dialogVisible.value=true;
+    handleTreeMenu();
 }
 
 //加载事件
 const handleLoad=()=>{
-    apiMenu.GetSystemMenuList(getMenuSelect).then(res=>{
+    apiMenu.GetList(getMenuSelect).then(res=>{
         tableConfig.Items=res.Items;
         tableConfig.totalCount=res.TotalCount;
     })
 }
 onMounted(()=>{
+    useMessage().success("加载成功");
     handleLoad();
 })
 

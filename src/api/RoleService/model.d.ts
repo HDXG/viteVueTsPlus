@@ -3,7 +3,7 @@ import { treeDto } from "../model";
 
 
 /***
- * 列表分页入参参数
+ * 角色列表分页入参参数
  */
 export interface GetSystemRolePagedListRequest extends PagingBase {
     RoleName: string
@@ -11,7 +11,7 @@ export interface GetSystemRolePagedListRequest extends PagingBase {
 
  
 /***
- * 返回列表分页
+ * 返回角色列表分页
  */
 export interface GetSystemRolePagedListResponse extends HasCreateDeleteEntityDto{
     RoleName:string,

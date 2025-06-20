@@ -1,5 +1,5 @@
 import api from './Request';
-import { ElMessage } from 'element-plus';
+import { useMessage } from '@/components/DesignPlus/EMessage'; 
 import {response} from '.';
 
 function ApiService(url:string,method:string,data:any){
@@ -9,7 +9,7 @@ function ApiService(url:string,method:string,data:any){
             resolve(res.data.data);
         }).catch(function (error) {
             if (error.response) {
-                ElMessage.error('出现异常信息!');
+                useMessage().error('出现异常信息!');
             }
         });
     })
@@ -35,7 +35,7 @@ function  PostService<res>(url:string,data:any=null){
                     //如果是500 返回一下错误信息内容
                     if(error.response.status==500){
                         console.log(error.response.data.msg);
-                        ElMessage.error(error.response.data.msg);
+                        useMessage().error(error.response.data.msg);
                     }
                 }
             });

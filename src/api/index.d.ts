@@ -30,12 +30,7 @@ export interface getPageListDto<T>{
     Items:T[]
 }
 
-/***
- * 查询对象通用
- * Id Guid
- */
-export interface QuerySingleRequest{
-    Id:string
-}
+
+
 
 

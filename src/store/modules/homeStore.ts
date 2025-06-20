@@ -45,13 +45,6 @@ export const UseHomeStore = defineStore('UseHomeStore', {
                     ComponentPath: 'SystemSetting/PopedomView.vue',
                     MenuUrl: '/SystemSetting/PopedomView',
                     icon: 'Male',
-                },
-                {
-                    title: '图标选择',
-                    RouteName: '/iconSelect',
-                    ComponentPath: '/components/DesignPlus/IconSelect.vue',
-                    MenuUrl: '/iconSelect',
-                    icon: 'Male',
                 }
             ] as loginUserMenuOutPut[];
             this.menuList = menuData;
